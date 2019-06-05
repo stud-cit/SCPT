@@ -4,7 +4,7 @@ This is web application for Sumy employment Center
 ## Features :bar_chart:
 |   |         Flow         | Design | Back-end | Front-End | Done |
 |:-:|----------------------|:------:|:--------:|:---------:|:----:|
-| 1 | Deployment ecosystem |    -   |    0%    |     0%    |  0%  |
+| 1 | Deployment ecosystem |    -   |    90%   |     90%   |  90% |
 | 2 | Default components   |   0%   |    -     |     0%    |  0%  |
 | 3 | Home                 |   0%   |    0%    |     0%    |  0%  |
 | 4 | About Us             |   0%   |    0%    |     0%    |  0%  |
@@ -29,9 +29,12 @@ This is web application for Sumy employment Center
 - Font: [Material Design Icons](https://materialdesignicons.com/tag/community) | [Vuetify Icons](https://vuetifyjs.com/ru/framework/icons)
 
 ## Build Setup :coffee:
-You will need to run:
+YRequired for startup and development:
  - Node.js &ge; 10.15.1
- - Install dependencies [See section](#Quick Start)
+ - [Vue-cli](https://cli.vuejs.org/guide/installation.html)
+ - [Nest-cli](https://docs.nestjs.com/cli/overview)
+ - [TypeORM-cli](https://typeorm.io/#/using-cli/installing-cli) && [TMG](https://www.npmjs.com/package/typeorm-model-generator)
+ - Install dependencies
 
 ##### Client app options
 ``` bash
