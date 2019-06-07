@@ -5,7 +5,7 @@ This is web application for Sumy employment Center
 |   |         Flow         | Design | Back-end | Front-End | Done |
 |:-:|----------------------|:------:|:--------:|:---------:|:----:|
 | 1 | Deployment ecosystem |    -   |    90%   |     90%   |  90% |
-| 2 | Default components   |   0%   |    -     |     0%    |  0%  |
+| 2 | Default components   |   0%   |    -     |     30%   |  30% |
 | 3 | Home                 |   0%   |    0%    |     0%    |  0%  |
 | 4 | About Us             |   0%   |    0%    |     0%    |  0%  |
 | 5 | Contacts             |   0%   |    0%    |     0%    |  0%  |
@@ -38,21 +38,29 @@ YRequired for startup and development:
 
 ##### Client app options
 ``` bash
-# The client app works with hot reload at localhost:3000
-$ npm run dev
+# The client app works with hot reload at localhost:{env port}
+$ npm run start:dev
 
 # Build for production and launch server
 $ npm run build
 $ npm start
 
 # Generate static project
-$ npm run generate
+$ npm run start:prod
 ```
 ##### Server app options
 ``` bash
+#
+$ npm run database:up
+
 # The server app works with hot reload and formatting,
 # as well as automated testing.
 $ npm run start:dev
+
+# Run [ unit | e2e | coverage ] tests
+$ npm run test
+$ npm run test:e2e
+$ npm run test:cov
 
 # Build for production and launch server
 $ npm run prestart:prod
