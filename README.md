@@ -1,5 +1,18 @@
-# Employment Center
-This is web application for Sumy employment Center
+# SCPT
+This Web-Application for SCPTu is a package of two separate applications (server and client modules) built on Nest and Nuxt frameworks respectively. 
+Complete technology stack:
+ - **Back-End**:
+   + Nest
+   + TypeORM ( MySQL )
+   + JWT
+   + Mailer ( HBS )
+   + Swagger
+ - **Front-End**:
+   + Nuxt ( TypeScript )
+   + Vuetify
+   + Axios
+   + MarkDown
+  
 
 ## Features :bar_chart:
 |   |         Flow         | Design | Back-end | Front-End | Done |
