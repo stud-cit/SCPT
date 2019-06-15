@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nest-modules/mailer';
 
 import { ConfigService } from '../config/config.service';
+import { SendMail } from './interfaces/send.interface';
 
 @Injectable()
 export class EmailsService {
@@ -10,14 +11,12 @@ export class EmailsService {
     private readonly configService: ConfigService,
   ) {}
 
-  send(user: string, subject: string, template: string, context: object) {
+  send(options: SendMail, context: object) {
     this.mailerService.sendMail({
-      to: user,
-      subject,
-      template,
+      ...options,
       context: {
         ...context,
-        title: subject,
+        title: options.subject,
         app_url: this.configService.getSetting('APP_ROOT_URL'),
       },
     });
