@@ -1,33 +1,30 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import * as path from 'path';
+import { dirname } from 'path';
 
-import { DatabaseService } from './database.service';
-import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
+import { DatabaseService } from './database.service';
 
-const rootDir = path.dirname(__dirname);
-
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        name: configService.getSetting('TYPEORM_NAME'),
-        type: configService.getSetting('TYPEORM_CONNECTION'),
-        host: configService.getSetting('TYPEORM_HOST'),
+      useFactory: async (configService: ConfigService) => ({
         port: configService.getSetting('TYPEORM_PORT'),
+        name: configService.getSetting('TYPEORM_NAME'),
+        host: configService.getSetting('TYPEORM_HOST'),
+        type: configService.getSetting('TYPEORM_CONNECTION'),
+        logging: configService.getSetting('NODE_ENV') === 'development',
         username: configService.getSetting('TYPEORM_USERNAME'),
         password: configService.getSetting('TYPEORM_PASSWORD'),
         database: configService.getSetting('TYPEORM_DATABASE'),
         dropSchema: configService.getSetting('TYPEORM_DROP_SCHEMA'),
         synchronize: configService.getSetting('TYPEORM_SYNCHRONIZE'),
-        migrationsTableName: configService.getSetting(
-          'TYPEORM_MIGRATIONS_TABLE_NAME',
-        ),
+        migrationsRun: configService.getSetting('TYPEORM_MIGRATIONS_RUN'),
         keepConnectionAlive: configService.getSetting('TYPEORM_KEEP_ALIVE'),
-        entities: [rootDir + '/**/*.entity{.ts,.js}'],
-        subscribers: [rootDir + '/**/*.subscriber{.ts,.js}'],
+        migrations: [__dirname + '/migrations/*{.ts,.js}'],
+        entities: [dirname(__dirname) + '/**/*.entity{.ts,.js}'],
+        subscribers: [dirname(__dirname) + '/**/*.subscriber{.ts,.js}'],
       }),
       inject: [ConfigService],
     }),

@@ -11,7 +11,10 @@ export class ConfigService {
 
   constructor() {
     this.filePath = process.env.NODE_ENV || '';
-    this.envConfig = dotenv.parse(fs.readFileSync(`.env.${this.filePath}`));
+    this.envConfig = {
+      ...process.env,
+      ...dotenv.parse(fs.readFileSync(`${this.filePath}.env`)),
+    };
   }
 
   getSetting(key: string): any {
