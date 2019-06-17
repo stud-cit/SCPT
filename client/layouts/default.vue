@@ -1,21 +1,19 @@
 <template>
   <v-app light>
     <Toolbar :pages="pages"/>
-    <slider></slider>
+    <Slider/>
+    <BottomNavigation :pages = "pages"/>
     <v-content>
-      <v-layout xs12 row wrap>
-        <v-flex column xs10 md10 sm10 lg2 pt-1>
-            <sidebar :items="items"></sidebar>
-            <Register/>
-        </v-flex>
-        <v-flex xs12 sm12 md12 lg9>
-          <nuxt/>
-        </v-flex>
-      </v-layout>
+        <v-layout row wrap>
+            <v-flex xs12 md3>
+                <Sidebar :items="items"/>
+            </v-flex>
+            <v-flex xs12 md9>
+                <nuxt/>
+            </v-flex>
+        </v-layout>
     </v-content>
-
-    </v-flex>
-    <Footer :invites="invites" />
+    <Footer :invites="invites"/>
   </v-app>
 </template>
 <script lang="ts">
@@ -24,10 +22,10 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {
     Toolbar: () => import("~/components/Toolbar"),
+    BottomNavigation : () => import("~/components/BottomNavigation"),
     Footer: () => import("~/components/Footer"),
-    Slider: () => import("~/components/slider.vue"),
-    sidebar : () => import("~/components/sidebar.vue"),
-    Register : () => import("~/components/register.vue")
+    Slider: () => import("~/components/Slider.vue"),
+    Sidebar : () => import("~/components/Sidebar.vue")
   },
   data: () => ({
     pages: [

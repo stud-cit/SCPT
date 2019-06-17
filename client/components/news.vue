@@ -1,8 +1,8 @@
 <template>
-    <v-flex xs12 row wrap>
+    <v-flex row wrap>
         <v-container
         fluid
-        grid-list-xs
+        grid-list-lg
         >
         <v-layout row wrap>
             <v-flex
@@ -73,3 +73,9 @@ export default class News extends Vue {
 }
 
 </script>
+
+<style>
+    .container{
+        padding-top: 0px !important;
+    }
+</style>

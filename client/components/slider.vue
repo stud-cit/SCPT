@@ -2,7 +2,6 @@
     <v-carousel app height="100vh">
       <v-carousel-item
         height="100vh"
-
         v-for="(item,i) in items"
         :key="i"
         :src="item.src"
