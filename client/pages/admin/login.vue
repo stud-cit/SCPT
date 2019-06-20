@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
-    LoremContent: () => import("~/components/LoremContent")
+    LoremContent: () => import('~/components/LoremContent'),
   },
   head: {
-    title: "Вхід"
+    title: 'Вхід',
   },
 })
 export default class LoginPage extends Vue {}

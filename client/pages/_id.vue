@@ -5,20 +5,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
-    LoremContent: () => import("~/components/LoremContent")
+    LoremContent: () => import('~/components/LoremContent'),
   },
   head: {
-    title: "Gen page"
+    title: 'Gen page',
   },
 })
 export default class NewsPage extends Vue {
-  validate ({ params }) {
+  validate({ params }) {
     // Должен быть числом
-    return /^\d+$/.test(params.id)
+    return /^\d+$/.test(params.id);
   }
 }
 </script>

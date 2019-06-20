@@ -1,11 +1,11 @@
-import Vue from "vue";
-import colors from "vuetify/es5/util/colors";
-import Vuetify from "vuetify/lib";
+import Vue from 'vue';
+import colors from 'vuetify/es5/util/colors';
+import Vuetify from 'vuetify/lib';
 
-import "@mdi/font/css/materialdesignicons.css";
+import '@mdi/font/css/materialdesignicons.css';
 
 Vue.use(Vuetify, {
-  iconfont: "mdi",
+  iconfont: 'mdi',
   options: {
     customProperties: true,
   },
