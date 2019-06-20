@@ -13,7 +13,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
     components: {
         LoremContent: () => import("~/components/LoremContent"),
-        News: () => import("~/components/news")
+        News: () => import("~/components/News")
     },
     head: {
         title: "Головна сторінка"

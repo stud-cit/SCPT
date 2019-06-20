@@ -11,7 +11,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {
     LoremContent: () => import("~/components/LoremContent"),
-    alboms:() => import("~/components/alboms")
+    alboms:() => import("~/components/Alboms")
   },
   head: {
     title: "Галерея"

@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <documents :documents = "documents"></documents>
+    <Documents :documents = "documents"></Documents>
     <LoremContent :size="15" />
   </v-container>
 </template>
@@ -11,7 +11,7 @@ import { Component, Vue } from 'vue-property-decorator'
 @Component({
   components: {
     LoremContent: () => import("~/components/LoremContent"),
-    documents : () => import("~/components/documents")
+    Documents : () => import("~/components/Documents")
   },
   head: {
     title: "Документи"
