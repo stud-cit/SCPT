@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar dense app fixed class="white--text hidden-sm-and-down" color="indigo">
+  <v-toolbar app fixed class="white--text hidden-sm-and-down" color="indigo">
     <v-toolbar-title>
       <v-icon color="white">mdi-vuetify</v-icon>
       Title
