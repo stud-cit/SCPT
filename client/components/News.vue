@@ -69,7 +69,7 @@ import { News } from "~/models";
 @Component({})
 export default class News extends Vue {
     @Prop({ type: Array, required: true }) news: [News]
-    @Prop({ type: Number, required: true }) page: number
+    @Prop({ type: Number, required: false }) page: number
 }
 
 </script>
