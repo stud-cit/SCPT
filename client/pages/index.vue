@@ -1,10 +1,35 @@
 <template>
-  <v-layout row>
-    <v-flex>
-      <News :news="news" />
-      <LoremContent :size="15" />
-    </v-flex>
-  </v-layout>
+  <v-container grid-list-lg>
+    <v-layout align-center justify-center row fill-height wrap>
+      <v-flex v-for="(article, i) in articles" :key="i" sm12 md9 lg4>
+        <v-card>
+          <v-card-title class="title">
+            {{ article.title }}
+          </v-card-title>
+          <v-img
+            :src="article.previewImage"
+            @error="imageLoadOnError"
+            aspect-ratio="1.75"
+          />
+          <v-card-text>
+            {{ article.description }}
+          </v-card-text>
+          <v-card-actions>
+            <v-btn
+              block
+              flat
+              color="primary"
+              @click.stop="onArticleViewer(article)"
+            >
+              Детальніше
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+    </v-layout>
+
+    <ArticleViewer v-model="dialog" :data="currentArticle" />
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -12,111 +37,37 @@ import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
-    LoremContent: () => import('~/components/LoremContent'),
-    News: () => import('~/components/News'),
+    ArticleViewer: () => import('~/components/ArticleViewer'),
   },
   head: {
     title: 'Головна сторінка',
   },
-  data: () => ({
-    news: [
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=1"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: 'hi',
-        content:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=2"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: 'hi2',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=3"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi3',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=4"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi4',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=5"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi5',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=6"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi6',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=7"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi7',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=8"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi8',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=9"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi9',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=10"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi10',
-      },
-      {
-        title: 'News_page',
-        prew_img: 'https://picsum.photos/200/200?random=11"',
-        prew_text:
-          'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-        dialog: false,
-        link: '#hi11',
-      },
-    ],
-  }),
-  created() {
-    console.log(this.$route); // this should not throw TS errors now
-  },
 })
-export default class HomePage extends Vue {}
+export default class HomePage extends Vue {
+  dialog: boolean = false;
+  currentArticle = {};
+
+  articles = new Array(20).fill('').map((item, i) => ({
+    title: `Title ${i}`,
+    previewImage: `img/placeholder.svg`,
+    description:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    link: 'hi',
+    content:
+      'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+    link: 'hi',
+    updateAt: new Date(),
+  }));
+
+  onArticleViewer(article, i) {
+    this.currentArticle = article;
+    return (this.dialog = true);
+  }
+
+  imageLoadOnError(event) {
+    return (this.data.previewImage = 'img/placeholder.svg');
+  }
+}
 </script>
 
 <style scoped></style>
