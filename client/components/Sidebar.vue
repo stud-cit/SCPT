@@ -1,48 +1,44 @@
 <template>
-  <v-flex>
-    <v-container fluid grid-list-lg>
-      <v-card flat>
-        <v-toolbar color="indigo" dark>
-          <v-toolbar-title>Напрями</v-toolbar-title>
-          <v-spacer></v-spacer>
-        </v-toolbar>
+  <v-container grid-list-lg>
+    <v-layout align-center justify-center wrap>
+      <v-flex>
+        <v-card flat>
+          <v-toolbar color="primary" dark>
+            <v-toolbar-title>Напрями</v-toolbar-title>
+          </v-toolbar>
 
-        <v-list>
-          <v-list-group
-            v-for="item in items"
-            :key="item.title"
-            v-model="item.active"
-            :prepend-icon="item.icon"
-            no-action
-          >
-            <template v-slot:activator>
-              <v-list-tile>
+          <v-list>
+            <v-list-group
+              no-action
+              v-for="item in items"
+              v-model="item.active"
+              :key="item.title"
+              :prepend-icon="item.icon"
+            >
+              <template v-slot:activator>
+                <v-list-tile>
+                  <v-list-tile-content>
+                    <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </template>
+
+              <v-list-tile v-for="(action, i) in actions" :key="i" @click="">
+                <v-list-tile-action>
+                  <v-icon>{{ action.icon }}</v-icon>
+                </v-list-tile-action>
                 <v-list-tile-content>
-                  <v-list-tile-title word-wrap: normal>{{
-                    item.title
-                  }}</v-list-tile-title>
+                  <v-list-tile-title>{{ action.title }}</v-list-tile-title>
                 </v-list-tile-content>
               </v-list-tile>
-            </template>
+            </v-list-group>
+          </v-list>
+        </v-card>
 
-            <v-list-tile
-              v-for="subItem in item.items"
-              :key="subItem.title"
-              @click=""
-            >
-              <v-list-tile-action>
-                <v-icon>{{ subItem.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
-                <v-list-tile-title>{{ subItem.title }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
-          </v-list-group>
-        </v-list>
-        <Register></Register>
-      </v-card>
-    </v-container>
-  </v-flex>
+        <Register />
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script lang="ts">
@@ -56,5 +52,11 @@ import { Bar } from '~/models';
 })
 export default class sidebar extends Vue {
   @Prop({ type: Array, required: true }) items: [Bar];
+
+  actions = [
+    { icon: 'mdi-file-document', title: 'Документація' },
+    { icon: 'mdi-presentation', title: 'Презентація' },
+    { icon: 'mdi-information-variant', title: 'Загальна інформація' },
+  ];
 }
 </script>

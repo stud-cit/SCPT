@@ -1,33 +1,49 @@
 <template>
   <v-container grid-list-lg>
-    <v-layout align-center justify-center row fill-height wrap>
-      <v-flex v-for="(article, i) in articles" :key="i" sm12 md9 lg4>
-        <v-card>
-          <v-card-title class="title">
-            {{ article.title }}
+    <v-layout align-center fill-height collumn wrap>
+      <v-flex xs12 class="text-xs-center display-1 font-weight-black my-5">
+        Анонси
+      </v-flex>
+      <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm12 md6>
+        <v-card @click.stop="onArticleViewer(announcement)">
+          <v-img :src="announcement.previewImage" @error="imageLoadOnError">
+            <v-container>
+              <v-flex xs12 align-end flexbox>
+                <span class="headline white--text">
+                  {{ announcement.title }}
+                </span>
+              </v-flex>
+            </v-container>
+          </v-img>
+          <v-card-title primary-title>
+            {{ descriptionPrepare(announcement.description) }}
           </v-card-title>
-          <v-img
-            :src="article.previewImage"
-            @error="imageLoadOnError"
-            aspect-ratio="1.75"
-          />
-          <v-card-text>
-            {{ article.description }}
-          </v-card-text>
-          <v-card-actions>
-            <v-btn
-              block
-              flat
-              color="primary"
-              @click.stop="onArticleViewer(article)"
-            >
-              Детальніше
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
 
+    <v-layout align-center justify-center fill-height wrap>
+      <v-flex xs12 class="text-xs-center display-1 font-weight-black my-5">
+        Новини
+      </v-flex>
+      <v-flex v-for="(article, i) in articles" :key="i" xs12 sm6 md4 lg3>
+        <v-card @click.stop="onArticleViewer(article)">
+          <v-img :src="article.previewImage" @error="imageLoadOnError">
+            <v-container>
+              <v-flex xs12 align-end flexbox>
+                <span class="headline white--text">{{ article.title }}</span>
+              </v-flex>
+            </v-container>
+          </v-img>
+
+          <v-card-title primary-title>
+            <div height="5vh">
+            {{ descriptionPrepare(article.description) }}
+          </div>
+          </v-card-title>
+        </v-card>
+      </v-flex>
+    </v-layout>
     <ArticleViewer v-model="dialog" :data="currentArticle" />
   </v-container>
 </template>
@@ -46,6 +62,8 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class HomePage extends Vue {
   dialog: boolean = false;
   currentArticle = {};
+  announcements = [];
+  descriptionLength = 140;
 
   articles = new Array(20).fill('').map((item, i) => ({
     title: `Title ${i}`,
@@ -58,6 +76,14 @@ export default class HomePage extends Vue {
     link: 'hi',
     updateAt: new Date(),
   }));
+
+  created() {
+    this.announcements = this.articles.splice(0, 3);
+  }
+
+  descriptionPrepare(str) {
+    return `${str.substr(0, this.descriptionLength)}...`;
+  }
 
   onArticleViewer(article, i) {
     this.currentArticle = article;
