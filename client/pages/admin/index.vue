@@ -5,14 +5,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
   components: {
-    LoremContent: () => import("~/components/LoremContent")
+    LoremContent: () => import('~/components/LoremContent'),
   },
   head: {
-    title: "Адмін панель"
+    title: 'Адмін панель',
   },
 })
 export default class AdminPage extends Vue {}

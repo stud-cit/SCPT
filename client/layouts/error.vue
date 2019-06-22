@@ -18,16 +18,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
-import { Error } from "~/models";
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Error } from '~/models';
 
 @Component({
   head: {
-    title: `Помилка`
-  }
+    title: `Помилка`,
+  },
 })
 export default class ErrorPage extends Vue {
-  @Prop({ type: Object, required: true }) error: Error
+  @Prop({ type: Object, required: true }) error: Error;
 }
 </script>
 

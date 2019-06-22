@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <LoremContent :size="15" />
+    <LoremContent :size="+this.$route.params.id" />
   </v-container>
 </template>
 
@@ -12,10 +12,15 @@ import { Component, Vue } from 'vue-property-decorator';
     LoremContent: () => import('~/components/LoremContent'),
   },
   head: {
-    title: 'Про нас',
+    title: 'Gen page',
   },
 })
-export default class AboutPage extends Vue {}
+export default class NewsPage extends Vue {
+  validate({ params }) {
+    // Должен быть числом
+    return /^\d+$/.test(params.id);
+  }
+}
 </script>
 
 <style scoped></style>
