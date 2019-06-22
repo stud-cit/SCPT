@@ -10,12 +10,12 @@ Vue.use(Vuetify, {
     customProperties: true,
   },
   theme: {
-    primary: colors.pink.base,
-    secondary: colors.pink.darken3,
+    primary: colors.deepPurple.base,
+    secondary: colors.purple.darken3,
     accent: colors.pink.darken2,
-    error: colors.orange.darken4,
-    warning: colors.yellow.darken4,
-    info: colors.cyan.base,
+    error: colors.red.darken4,
+    warning: colors.orange.darken4,
+    info: colors.blue.base,
     success: colors.green.base,
   },
 });
