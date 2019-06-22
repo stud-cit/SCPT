@@ -63,17 +63,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { Register } from '~/models';
-export default {
-  data: () => ({
-    dialog: false,
-  }),
-};
-// @Component({})
-// export default class Regitser  extends Vue {
-//   @Prop({ type: Array, required: true }) dialogs: [Register]
-// }
+@Component({})
+export default class Regitser extends Vue {
+  dialog: boolean = false;
+}
 </script>
 <style>
 .headline {
