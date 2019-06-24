@@ -1,17 +1,15 @@
-import { Module } from '@nestjs/common';
+import { Module, Global } from '@nestjs/common';
 import { MailerModule, HandlebarsAdapter } from '@nest-modules/mailer';
 
-import { ConfigModule } from '../config/config.module';
 import { ConfigService } from '../config/config.service';
 
 import { EmailsService } from './emails.service';
 
+@Global()
 @Module({
   imports: [
-    ConfigModule,
     MailerModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
+      useFactory: async (configService: ConfigService) => ({
         transport: configService.getSetting('MAILER_TRANSPORT'),
         defaults: {
           from: configService.getSetting('MAILER_DEF_FROM'),
