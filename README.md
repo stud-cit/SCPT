@@ -12,19 +12,6 @@ Complete technology stack:
    + Vuetify
    + Axios
    + MarkDown
-  
-
-## Features :bar_chart:
-|   |         Flow         | Design | Back-end | Front-End | Done |
-|:-:|----------------------|:------:|:--------:|:---------:|:----:|
-| 1 | Deployment ecosystem |    -   |    90%   |     90%   |  90% |
-| 2 | Default components   |   0%   |    -     |     30%   |  30% |
-| 3 | Home                 |   0%   |    0%    |     0%    |  0%  |
-| 4 | About Us             |   0%   |    0%    |     0%    |  0%  |
-| 5 | Contacts             |   0%   |    0%    |     0%    |  0%  |
-| 6 | Login                |   0%   |    0%    |     0%    |  0%  |
-| 8 | Admin                |   0%   |    0%    |     0%    |  0%  |
-| 9 | Gallery              |   0%   |    0%    |     0%    |  0%  |
 
 ## Library Documentation :books:
 **Important to read**: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) |
