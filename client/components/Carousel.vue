@@ -11,12 +11,12 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class Carousel extends Vue {
   @Prop({ type: Array, required: true }) items: [String];
 
-  onChangeHeight () {
-    if(this.$route.path === '/') {
-      return '100vh'
+  onChangeHeight() {
+    if (this.$route.path === '/') {
+      return '100vh';
     }
 
-    return '70vh'
+    return '70vh';
   }
 }
 </script>
