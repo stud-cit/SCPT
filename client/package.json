@@ -18,6 +18,7 @@
     "dotenv": "^8.0.0",
     "nuxt": "2.8.1",
     "ts-node": "8.2.0",
+    "vee-validate": "^2.2.11",
     "vuetify": "^1.5.14",
     "vuetify-loader": "^1.2.2",
     "vuex-class": "0.3.2"

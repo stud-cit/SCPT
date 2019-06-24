@@ -48,7 +48,7 @@ const config: NuxtConfiguration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vuetify'],
+  plugins: ['~/plugins/vuetify', '~/plugins/vee-validate'],
   /*
    * Build configuration
    */
