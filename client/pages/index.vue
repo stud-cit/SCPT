@@ -1,9 +1,7 @@
 <template>
   <v-container grid-list-lg>
     <v-layout align-center fill-height collumn wrap>
-      <v-flex xs12 class="text-xs-center display-1 font-weight-black my-5">
-        Анонси
-      </v-flex>
+      <v-flex xs12 class="text-xs-center display-2 my-5">Анонси</v-flex>
       <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm12 md6>
         <v-card @click.stop="onArticleViewer(announcement)">
           <v-img :src="announcement.previewImage" @error="imageLoadOnError">
@@ -23,9 +21,7 @@
     </v-layout>
 
     <v-layout align-center justify-center fill-height wrap>
-      <v-flex xs12 class="text-xs-center display-1 font-weight-black my-5">
-        Новини
-      </v-flex>
+      <v-flex xs12 class="text-xs-center display-2 my-5">Новини</v-flex>
       <v-flex v-for="(article, i) in articles" :key="i" xs12 sm6 md4 lg3>
         <v-card @click.stop="onArticleViewer(article)">
           <v-img :src="article.previewImage" @error="imageLoadOnError">
@@ -35,11 +31,8 @@
               </v-flex>
             </v-container>
           </v-img>
-
           <v-card-title primary-title>
-            <div height="5vh">
             {{ descriptionPrepare(article.description) }}
-          </div>
           </v-card-title>
         </v-card>
       </v-flex>

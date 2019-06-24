@@ -1,0 +1,17 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <radialGradient id="SVGID_1_" cx="615.8203" cy="-47.6318" r="447.8687" gradientTransform="matrix(1 0 0 -1 -321 163.5)" gradientUnits="userSpaceOnUse">
+   <stop offset="0" stop-color="#5400b5"/>
+   <stop offset="1" stop-color="#5400b5"/>
+  </radialGradient>
+ </defs>
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="602" height="402" id="canvas_background" fill="none"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect x="-0.333333" y="0.666667" fill="url(#SVGID_1_)" width="600" height="400" id="svg_1"/>
+  <path stroke="#ffffff" fill="#ffffff" d="m243.664766,148.096927l-9.7344,7.64716l18.84745,14.8062l-5.03979,0a6.90383,5.42352 0 0 0 -6.90383,5.42352l0,54.23519a6.90383,5.42352 0 0 0 6.90383,5.42352l82.84594,0c1.4498,0 2.69249,-0.43388 3.7971,-0.97623l21.95418,17.24679l9.7344,-7.64716l-61.16792,-48.05238l-61.23696,-48.10661m10.97709,76.68855l0,-43.38815l11.94362,0l55.23063,43.38815l-67.17425,0m69.03828,-43.38815l0,14.15539l41.42297,32.54111l0,-54.83178l-27.61531,21.69408l0,-18.98232a6.90383,5.42352 0 0 0 -6.90383,-5.42352l-38.73048,0l13.80766,10.84704l18.01899,0z" id="svg_2"/>
+ </g>
+</svg>

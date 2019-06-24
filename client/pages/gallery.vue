@@ -1,114 +1,68 @@
 <template>
-  <v-container>
-    <alboms :period="period" />
-    <LoremContent :size="15" />
-  </v-container>
+  <v-layout column>
+    <v-container v-for="(event, i) in events" :key="i">
+      <v-layout class="display-1 font-weight-light my-3">
+        {{ event.title }}<v-spacer />{{ toFormatDate(event.createAt) }}
+      </v-layout>
+      <v-divider v-if="i > 0" />
+      <v-container fluid grid-list-lg>
+        <v-layout align-center justify-center row fill-height wrap>
+          <v-flex v-for="(item, j) in event.items" :key="j" xs12 sm6 md4 lg3>
+            <v-img
+              :src="item.src"
+              :alt="item.title"
+              @error="imageLoadOnError"
+              @click.stop="onGalleryViewer(event, j)"
+            />
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-container>
+    <GalleryViewer v-model="dialog" :data="currentItem" />
+  </v-layout>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import toFormatDate from '~/mixins/toFormatDate';
 
 @Component({
-  components: {
-    LoremContent: () => import('~/components/LoremContent'),
-    alboms: () => import('~/components/Alboms'),
-  },
   head: {
     title: 'Галерея',
   },
-  data: () => ({
-    period: [
-      {
-        title: 'July',
-        src: 'https://picsum.photos/1920/1080?random=1"',
-        photos: [
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=1"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=2"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=3"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=4"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=5"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=6"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=7"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=8"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=9"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=10"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=11"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=12"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=13"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=14"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=15"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=16"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=17"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=18"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=19"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=20"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=21"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=22"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=23"' },
-        ],
-      },
-      {
-        title: 'June',
-        src: 'https://picsum.photos/1920/1080?random=1"',
-        photos: [
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=1"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=2"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=3"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=4"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=5"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=6"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=7"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=8"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=9"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=10"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=11"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=12"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=13"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=14"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=15"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=16"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=17"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=18"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=19"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=20"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=21"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=22"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=23"' },
-        ],
-      },
-      {
-        title: 'May',
-        src: 'https://picsum.photos/1920/1080?random=1"',
-        photos: [
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=1"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=2"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=3"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=4"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=5"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=6"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=7"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=8"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=9"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=10"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=11"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=12"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=13"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=14"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=15"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=16"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=17"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=18"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=19"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=20"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=21"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=22"' },
-          { dialog: false, src: 'https://picsum.photos/1920/1080?random=23"' },
-        ],
-      },
-    ],
-  }),
+  components: {
+    GalleryViewer: () => import('~/components/GalleryViewer'),
+  },
+  mixins: [toFormatDate],
 })
-export default class GalleryPage extends Vue {}
+export default class GalleryPage extends Vue {
+  dialog: boolean = false;
+  currentItem = {};
+
+  events = new Array(10).fill('').map((item, i) => ({
+    title: `Title ${i}`,
+    items: new Array(15).fill({
+      type: 'video',
+      title: `Alt item ${i}`,
+      src: `${Math.random() > 0.5 ? 'img' : 'video'}/placeholder.svg`,
+    }),
+    createAt: Math.random(),
+  }));
+
+  onGalleryViewer(event, n) {
+    const l = event.items.length;
+    event.items = event.items.map((item, i) => {
+      return event.items[(((n + i) % l) + l) % l];
+    });
+    this.currentItem = event;
+
+    return (this.dialog = true);
+  }
+
+  imageLoadOnError(event) {
+    return (this.data.previewImage = 'img/placeholder.svg');
+  }
+}
 </script>
 
 <style scoped></style>
