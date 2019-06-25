@@ -1,22 +1,42 @@
 <template>
-  <v-carousel :height="onChangeHeight()" hide-controls hide-delimiters>
-    <v-carousel-item v-for="(item, i) in items" :key="i" :src="item" />
+  <v-carousel v-bind="getAttrs()" v-model="getIndex">
+    <v-carousel-item
+      v-for="(item, i) in items"
+      :key="i"
+      :src="item.src"
+    >
+      <slot v-bind="item" />
+    </v-carousel-item>
   </v-carousel>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
-@Component()
+@Component({
+  computed: {
+    getIndex: {
+      set () {
+        return 0
+      },
+      get () {
+        return this.index | 0
+      }
+    }
+  }
+})
 export default class Carousel extends Vue {
-  @Prop({ type: Array, required: true }) items: [String];
+  @Prop({ type: Array | undefined, required: true }) items: [Object];
+  @Prop({ type: Number, required: false, default: 0 }) index: Number;
 
-  onChangeHeight() {
-    if (this.$route.path === '/') {
-      return '100vh';
+  getAttrs() {
+    this.$attrs['height'] = '70vh';
+
+    if ('fullscreen' in this.$attrs || this.$route.path === '/') {
+      this.$attrs.height = '100vh';
     }
 
-    return '70vh';
+    return this.$attrs;
   }
 }
 </script>

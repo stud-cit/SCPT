@@ -18,7 +18,7 @@
         </v-layout>
       </v-container>
     </v-container>
-    <GalleryViewer v-model="dialog" :data="currentItem" />
+    <GalleryViewer v-model="dialog" :data="currentEvent" />
   </v-layout>
 </template>
 
@@ -37,24 +37,23 @@ import toFormatDate from '~/mixins/toFormatDate';
 })
 export default class GalleryPage extends Vue {
   dialog: boolean = false;
-  currentItem = {};
+  currentEvent = {};
 
   events = new Array(10).fill('').map((item, i) => ({
     title: `Title ${i}`,
-    items: new Array(15).fill({
+    items: new Array(15).fill('').map((item, i) => ({
       type: 'video',
       title: `Alt item ${i}`,
       src: `${Math.random() > 0.5 ? 'img' : 'video'}/placeholder.svg`,
-    }),
+    })),
     createAt: Math.random(),
   }));
 
   onGalleryViewer(event, n) {
-    const l = event.items.length;
-    event.items = event.items.map((item, i) => {
-      return event.items[(((n + i) % l) + l) % l];
-    });
-    this.currentItem = event;
+    this.currentEvent = {
+      index: n,
+      ...event,
+    };
 
     return (this.dialog = true);
   }
