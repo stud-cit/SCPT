@@ -10,7 +10,7 @@
     "start": "nuxt start",
     "start:prod": "nuxt generate",
     "prestart:prod": "rimraf dist .nuxt && npm run build",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "prettier --write \"./**/*.{ts,vue}\"",
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "dependencies": {
@@ -18,6 +18,7 @@
     "dotenv": "^8.0.0",
     "nuxt": "2.8.1",
     "ts-node": "8.2.0",
+    "vee-validate": "^2.2.11",
     "vuetify": "^1.5.14",
     "vuetify-loader": "^1.2.2",
     "vuex-class": "0.3.2"
