@@ -4,10 +4,7 @@
       <v-flex xs12 class="text-xs-center display-2 my-5">Анонси</v-flex>
       <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm12 md6>
         <v-card @click.stop="onArticleViewer(announcement)">
-          <v-img
-            :src="announcement.previewImage"
-            :lazy-src="imagePlaceholder()"
-          >
+          <CustomImage :data="announcement" :aspect-ratio="6/4">
             <v-container>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text">
@@ -15,7 +12,7 @@
                 </span>
               </v-flex>
             </v-container>
-          </v-img>
+          </CustomImage>
           <v-card-title primary-title>
             {{ descriptionPrepare(announcement.description) }}
           </v-card-title>
@@ -27,13 +24,13 @@
       <v-flex xs12 class="text-xs-center display-2 my-5">Новини</v-flex>
       <v-flex v-for="(article, i) in articles" :key="i" xs12 sm6 md4 lg3>
         <v-card @click.stop="onArticleViewer(article)">
-          <v-img :src="article.previewImage" :lazy-src="imagePlaceholder()">
+          <CustomImage :data="article" :aspect-ratio="6/4">
             <v-container>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text">{{ article.title }}</span>
               </v-flex>
             </v-container>
-          </v-img>
+          </CustomImage>
           <v-card-title primary-title>
             {{ descriptionPrepare(article.description) }}
           </v-card-title>
@@ -53,6 +50,7 @@ import { Component, Vue } from 'vue-property-decorator';
   },
   components: {
     ArticleViewer: () => import('~/components/ArticleViewer'),
+    CustomImage: () => import('~/components/CustomImage'),
   },
 })
 export default class HomePage extends Vue {
@@ -63,7 +61,8 @@ export default class HomePage extends Vue {
 
   articles = new Array(20).fill('').map((item, i) => ({
     title: `Title ${i}`,
-    previewImage: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
+    src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
+    lazySrc: `https://picsum.photos/10/6?image=${i * 5 + 10}`,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     link: 'hi',

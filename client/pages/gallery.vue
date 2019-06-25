@@ -8,12 +8,10 @@
       <v-container fluid grid-list-lg>
         <v-layout align-center justify-center row fill-height wrap>
           <v-flex v-for="(item, j) in event.items" :key="j" xs12 sm6 md4 lg3>
-            <v-img
-              :src="item.src"
-              :lazy-src="imagePlaceholder()"
-              :aspect-ratio="16 / 9"
-              :alt="item.title"
-              @click.stop="onGalleryViewer(event, j)"
+            <CustomImage
+              :data="item"
+              :aspect-ratio="1"
+              @click.native="onGalleryViewer(event, j)"
             />
           </v-flex>
         </v-layout>
@@ -32,6 +30,7 @@ import { Component, Vue } from 'vue-property-decorator';
   },
   components: {
     GalleryViewer: () => import('~/components/GalleryViewer'),
+    CustomImage: () => import('~/components/CustomImage'),
   },
 })
 export default class GalleryPage extends Vue {
@@ -43,7 +42,8 @@ export default class GalleryPage extends Vue {
     items: new Array(15).fill('').map((item, i) => ({
       type: 'video',
       title: `Alt item ${i}`,
-      src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
+      src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
+      lazySrc: `https://picsum.photos/10/6?image=${i * 5 + 10}`,
     })),
     createAt: Math.random(),
   }));
