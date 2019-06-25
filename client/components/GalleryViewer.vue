@@ -27,7 +27,7 @@
             {{ data.title }} : {{ toFormatDate(data.createAt) }}
           </v-flex>
           <v-flex xs12 align-end class="title white--text">
-          {{ item.title }}
+            {{ item.title }}
           </v-flex>
         </v-container>
       </v-toolbar>
