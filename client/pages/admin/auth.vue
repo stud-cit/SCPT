@@ -71,7 +71,7 @@ import { ValidationObserver } from 'vee-validate';
     ValidationObserver,
   },
 })
-export default class SignInPage extends Vue {
+export default class AuthPage extends Vue {
   email: string = '';
   password: string = '';
 

@@ -37,10 +37,8 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import toFormatDate from '~/mixins/toFormatDate';
 
 @Component({
-  mixins: [toFormatDate],
   components: {
     Carousel: () => import('~/components/Carousel.vue'),
   },

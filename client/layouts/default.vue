@@ -91,6 +91,8 @@ export default class DefaultLayuot extends Vue {
     { icon: 'mdi-twitter', to: '//google.com' },
   ];
 
-  carusel = new Array(5).fill({ src: './img/placeholder.svg' });
+  carusel = new Array(5).fill('').map((item, i) => ({
+    src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
+  }));
 }
 </script>

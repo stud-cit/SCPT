@@ -8,11 +8,11 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  components: {
-    LoremContent: () => import('~/components/LoremContent'),
-  },
   head: {
     title: 'Адмін панель',
+  },
+  components: {
+    LoremContent: () => import('~/components/LoremContent'),
   },
 })
 export default class AdminPage extends Vue {}

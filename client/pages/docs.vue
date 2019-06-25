@@ -3,7 +3,12 @@
     <v-layout align-cente justify-center wrap>
       <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm5 md4 lg3>
         <v-card>
-          <v-img class="white--text" :src="doc.src" :aspect-ratio="70 / 99" />
+          <v-img
+            class="white--text"
+            :src="doc.src"
+            :aspect-ratio="70 / 99"
+            :lazy-src="imagePlaceholder()"
+          />
           <v-card-actions class="pt-4" style="position: relative; z-index:0">
             <v-btn
               @click="download(doc.to)"
@@ -35,7 +40,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class DocsPage extends Vue {
   documents = new Array(2).fill('').map((item, i) => ({
     title: `Документ ${i}`,
-    src: './img/placeholder.svg',
+    src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
     to: '/',
   }));
 

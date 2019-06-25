@@ -50,14 +50,6 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 export default class ArticleViewer extends Vue {
   @Prop({ type: Boolean, required: false }) value: any;
   @Prop({ type: Object, required: true }) data: any;
-
-  toFormatDate(date) {
-    return new Date(date).toLocaleDateString('uk-UA', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  }
 }
 </script>
 

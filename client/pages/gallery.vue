@@ -10,8 +10,9 @@
           <v-flex v-for="(item, j) in event.items" :key="j" xs12 sm6 md4 lg3>
             <v-img
               :src="item.src"
+              :lazy-src="imagePlaceholder()"
+              :aspect-ratio="16 / 9"
               :alt="item.title"
-              @error="imageLoadOnError"
               @click.stop="onGalleryViewer(event, j)"
             />
           </v-flex>
@@ -24,7 +25,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import toFormatDate from '~/mixins/toFormatDate';
 
 @Component({
   head: {
@@ -33,7 +33,6 @@ import toFormatDate from '~/mixins/toFormatDate';
   components: {
     GalleryViewer: () => import('~/components/GalleryViewer'),
   },
-  mixins: [toFormatDate],
 })
 export default class GalleryPage extends Vue {
   dialog: boolean = false;
@@ -44,7 +43,7 @@ export default class GalleryPage extends Vue {
     items: new Array(15).fill('').map((item, i) => ({
       type: 'video',
       title: `Alt item ${i}`,
-      src: `${Math.random() > 0.5 ? 'img' : 'video'}/placeholder.svg`,
+      src: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
     })),
     createAt: Math.random(),
   }));
@@ -56,10 +55,6 @@ export default class GalleryPage extends Vue {
     };
 
     return (this.dialog = true);
-  }
-
-  imageLoadOnError(event) {
-    return (this.data.previewImage = 'img/placeholder.svg');
   }
 }
 </script>

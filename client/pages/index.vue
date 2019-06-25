@@ -4,7 +4,10 @@
       <v-flex xs12 class="text-xs-center display-2 my-5">Анонси</v-flex>
       <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm12 md6>
         <v-card @click.stop="onArticleViewer(announcement)">
-          <v-img :src="announcement.previewImage" @error="imageLoadOnError">
+          <v-img
+            :src="announcement.previewImage"
+            :lazy-src="imagePlaceholder()"
+          >
             <v-container>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text">
@@ -24,7 +27,7 @@
       <v-flex xs12 class="text-xs-center display-2 my-5">Новини</v-flex>
       <v-flex v-for="(article, i) in articles" :key="i" xs12 sm6 md4 lg3>
         <v-card @click.stop="onArticleViewer(article)">
-          <v-img :src="article.previewImage" @error="imageLoadOnError">
+          <v-img :src="article.previewImage" :lazy-src="imagePlaceholder()">
             <v-container>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text">{{ article.title }}</span>
@@ -45,11 +48,11 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  components: {
-    ArticleViewer: () => import('~/components/ArticleViewer'),
-  },
   head: {
     title: 'Головна сторінка',
+  },
+  components: {
+    ArticleViewer: () => import('~/components/ArticleViewer'),
   },
 })
 export default class HomePage extends Vue {
@@ -60,7 +63,7 @@ export default class HomePage extends Vue {
 
   articles = new Array(20).fill('').map((item, i) => ({
     title: `Title ${i}`,
-    previewImage: `img/placeholder.svg`,
+    previewImage: `https://picsum.photos/500/300?image=${i * 5 + 10}`,
     description:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     link: 'hi',
@@ -81,10 +84,6 @@ export default class HomePage extends Vue {
   onArticleViewer(article, i) {
     this.currentArticle = article;
     return (this.dialog = true);
-  }
-
-  imageLoadOnError(event) {
-    return (this.data.previewImage = 'img/placeholder.svg');
   }
 }
 </script>
