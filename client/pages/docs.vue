@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-lg>
-    <v-layout align-center justify-space-around wrap>
-      <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm6 md4 lg3>
+    <v-layout align-cente justify-center wrap>
+      <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm5 md4 lg3>
         <v-card>
           <v-img class="white--text" :src="doc.src" :aspect-ratio="70 / 99" />
           <v-card-actions class="pt-4" style="position: relative; z-index:0">
@@ -16,7 +16,7 @@
               <v-icon>mdi-download</v-icon>
             </v-btn>
 
-            <span class="body-2 mb-2">{{ doc.title }}</span>
+            <span class="title mb-2">{{ doc.title }}</span>
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -33,7 +33,7 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class DocsPage extends Vue {
-  documents = new Array(13).fill('').map((item, i) => ({
+  documents = new Array(2).fill('').map((item, i) => ({
     title: `Документ ${i}`,
     src: './img/placeholder.svg',
     to: '/',
