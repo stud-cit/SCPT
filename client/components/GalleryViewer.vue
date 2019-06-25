@@ -6,10 +6,10 @@
     hide-overlay
     transition="dialog-bottom-transition"
   >
-    <v-toolbar app card dark color="transparent" class="py-2">
+    <v-toolbar app card dark color="transparent" class="pt-2">
       <v-spacer />
       <v-btn icon large @click.native="$emit('input')">
-        <v-icon large>mdi-close</v-icon>
+        <v-icon large medium>mdi-close</v-icon>
       </v-btn>
     </v-toolbar>
 
@@ -21,7 +21,7 @@
       fullscreen
       hide-delimiters
     >
-      <v-toolbar app card dark color="transparent" class="py-2">
+      <v-toolbar app card extended color="rgb(0, 0, 0, 0.7)">
         <v-container justify-center>
           <v-flex xs12 align-end class="headline white--text">
             {{ data.title }} : {{ toFormatDate(data.createAt) }}
