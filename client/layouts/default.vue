@@ -78,6 +78,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class DefaultLayuot extends Vue {
   pages = [
     { title: 'Головна', icon: 'mdi-home', to: '/' },
+    { title: 'Напрямки', icon: 'mdi-ticket', to: '/directions' },
     { title: 'Документи', icon: 'mdi-file-document', to: '/docs' },
     { title: 'Галерея', icon: 'mdi-animation', to: '/gallery' },
     { title: 'Контакти', icon: 'mdi-contacts', to: '/contact' },
