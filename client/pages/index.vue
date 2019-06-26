@@ -4,7 +4,7 @@
       <v-flex xs12 class="text-xs-center display-2 my-5">Анонси</v-flex>
       <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm12 md6>
         <v-card @click.stop="onArticleViewer(announcement)">
-          <CustomImage :data="announcement" :aspect-ratio="6/4">
+          <CustomImage :data="announcement" :aspect-ratio="6 / 4">
             <v-container>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text">
@@ -24,7 +24,7 @@
       <v-flex xs12 class="text-xs-center display-2 my-5">Новини</v-flex>
       <v-flex v-for="(article, i) in articles" :key="i" xs12 sm6 md4 lg3>
         <v-card @click.stop="onArticleViewer(article)">
-          <CustomImage :data="article" :aspect-ratio="6/4">
+          <CustomImage :data="article" :aspect-ratio="6 / 4">
             <v-container>
               <v-flex xs12 align-end flexbox>
                 <span class="headline white--text">{{ article.title }}</span>

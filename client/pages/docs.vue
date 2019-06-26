@@ -33,7 +33,7 @@ import { Component, Vue } from 'vue-property-decorator';
   },
   components: {
     CustomImage: () => import('~/components/CustomImage'),
-  }
+  },
 })
 export default class DocsPage extends Vue {
   documents = new Array(2).fill('').map((item, i) => ({
