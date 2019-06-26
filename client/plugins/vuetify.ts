@@ -1,13 +1,32 @@
 import Vue from 'vue';
-import colors from 'vuetify/es5/util/colors';
-import Vuetify from 'vuetify/lib';
+import Vuetify, {
+  VTextField,
+  VTooltip,
+  VToolbar,
+  VCard,
+  VIcon,
+  VBtn,
+} from 'vuetify/lib';
+import { TiptapVuetifyPlugin } from 'tiptap-vuetify';
 
+import colors from 'vuetify/es5/util/colors';
 import '@mdi/font/css/materialdesignicons.css';
+import 'tiptap-vuetify/dist/main.css';
+
+const iconfont = 'mdi';
 
 Vue.use(Vuetify, {
-  iconfont: 'mdi',
+  iconfont: iconfont,
   options: {
     customProperties: true,
+  },
+  components: {
+    VTextField,
+    VTooltip,
+    VToolbar,
+    VCard,
+    VIcon,
+    VBtn,
   },
   theme: {
     primary: colors.deepPurple.base,
@@ -18,4 +37,8 @@ Vue.use(Vuetify, {
     info: colors.blue.base,
     success: colors.green.base,
   },
+});
+
+Vue.use(TiptapVuetifyPlugin, {
+  iconsGroup: iconfont,
 });
