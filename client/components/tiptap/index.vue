@@ -21,7 +21,9 @@
               <v-icon>mdi-trash-can</v-icon>
             </v-btn>
           </template>
-          <template>Clear</template>
+          <template>
+            Clear
+          </template>
         </v-tooltip>
 
         <v-tooltip top>
@@ -30,7 +32,9 @@
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
           </template>
-          <template>Save</template>
+          <template
+            >Save</template
+          >
         </v-tooltip>
       </v-toolbar>
     </template>

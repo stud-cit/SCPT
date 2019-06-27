@@ -5,11 +5,18 @@
         {{ way.title }}
       </v-layout>
       <v-container fluid grid-list-lg>
-        <v-layout class = "box-img"align-center justify-center row wrap>
+        <v-layout class="box-img" align-center justify-center row wrap>
           <v-flex v-for="(doc, i) in way.documents" :key="i" xs4>
-            <v-card class = "doc">
-              <CustomImage class = "doc-image" :data="doc" :aspect-ratio="70 / 99" />
-              <v-card-actions class="pt-4" style="position: relative; z-index:0">
+            <v-card class="doc">
+              <CustomImage
+                class="doc-image"
+                :data="doc"
+                :aspect-ratio="70 / 99"
+              />
+              <v-card-actions
+                class="pt-4"
+                style="position: relative; z-index:0"
+              >
                 <v-btn
                   @click="download(doc.to)"
                   color="accent"
@@ -46,23 +53,24 @@ import { Component, Vue } from 'vue-property-decorator';
   components: {
     CustomImage: () => import('~/components/CustomImage'),
     Carousel: () => import('~/components/Carousel.vue'),
-  }
+  },
 })
 export default class WayPage extends Vue {
-  ways = new Array(10).fill('').map((item, i)=>({
-    title: `Напрямок ${i+1}`,
-    documents:[{
-      title: `Документ ${i+1}`,
-      src: `https://picsum.photos/1366/728?image=${i}`,
-      lazySrc: `https://picsum.photos/10/6?image=${i}`,
-      to: '/',
-    }],
-    carusel : new Array(5).fill('').map((item, i) => ({
+  ways = new Array(10).fill('').map((item, i) => ({
+    title: `Напрямок ${i + 1}`,
+    documents: [
+      {
+        title: `Документ ${i + 1}`,
+        src: `https://picsum.photos/1366/728?image=${i}`,
+        lazySrc: `https://picsum.photos/10/6?image=${i}`,
+        to: '/',
+      },
+    ],
+    carusel: new Array(5).fill('').map((item, i) => ({
       src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
     })),
     content:
       'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-
   }));
   carusel = new Array(5).fill('').map((item, i) => ({
     src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
@@ -83,10 +91,11 @@ export default class WayPage extends Vue {
   position: absolute;
   width: 100%;
 }
-.v-carousel, .doc{
+.v-carousel,
+.doc {
   height: 500px !important;
 }
-.doc-image{
+.doc-image {
   height: 450px;
 }
 </style>
