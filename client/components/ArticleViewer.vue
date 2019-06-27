@@ -53,12 +53,16 @@ export default class ArticleViewer extends Vue {
   @Prop({ type: Object, required: true }) data: any;
 
   setBackground(data) {
-    return {
-      height: '25vh',
-      'background-image': `url(${data.src})`,
-      'background-size': 'cover',
-      'background-position-y': 'center',
-    };
+    if (data.src) {
+      return {
+        height: '25vh',
+        'background-image': `url(${data.src})`,
+        'background-size': 'cover',
+        'background-position-y': 'center',
+      };
+    }
+
+    return;
   }
 }
 </script>
