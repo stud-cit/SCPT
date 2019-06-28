@@ -6,6 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { User } from '../../common/decorators/user.decorator';
+import { AppService } from '../../app/app.service';
 
 import { UserCreateDto } from './dto/users.dto';
 import { UsersService } from './users.service';
@@ -14,13 +15,17 @@ import { Users } from './users.entity';
 @ApiUseTags('users')
 @Controller('users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly appService: AppService,
+  ) {}
 
   @Post()
   async create(@Body() data: UserCreateDto): Promise<Users> {
-    const scope = await this.usersService.selectAll();
+    const scope = await this.usersService.select();
 
     if (!scope.length) {
+      await this.appService.create({});
       return await this.usersService.create(data);
     }
 
