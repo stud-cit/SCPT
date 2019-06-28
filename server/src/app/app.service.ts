@@ -25,6 +25,11 @@ export class AppService {
     });
   }
 
+  async update(config: App, data: ConfingCreateDto): Promise<App> {
+    await this.appRepository.merge(config, data);
+    return await this.appRepository.save(config);
+  }
+
   async delete(id: number): Promise<DeleteResult> {
     return await this.appRepository.delete(id);
   }

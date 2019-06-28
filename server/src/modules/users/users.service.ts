@@ -17,7 +17,7 @@ export class UsersService {
     return await this.usersRepository.save(user);
   }
 
-  async selectAll(): Promise<Users[]> {
+  async select(): Promise<Users[]> {
     return await this.usersRepository.find();
   }
 
@@ -31,6 +31,11 @@ export class UsersService {
         login: login,
       },
     });
+  }
+
+  async update(user: Users, data: UserCreateDto): Promise<Users> {
+    await this.usersRepository.merge(user, data);
+    return await this.usersRepository.save(user);
   }
 
   async delete(id: number): Promise<DeleteResult> {

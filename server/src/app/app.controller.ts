@@ -25,7 +25,8 @@ export class AppController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   async update(@Body() data: ConfingCreateDto): Promise<App> {
-    return await this.appService.create(data).catch(() => {
+    const confing = await this.appService.select();
+    return await this.appService.update(confing, data).catch(() => {
       throw new HttpException('Configuration not found', HttpStatus.NO_CONTENT);
     });
   }

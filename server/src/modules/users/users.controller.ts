@@ -42,15 +42,13 @@ export class UsersController {
   @Put()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async update(@Body() data: UserCreateDto): Promise<Users> {
-    return await this.usersService
-      .create({
-        login: data.login,
-        password: data.password,
-      })
-      .catch(() => {
-        throw new HttpException('User not found', HttpStatus.NO_CONTENT);
-      });
+  async update(
+    @User() user: Users,
+    @Body() data: UserCreateDto,
+  ): Promise<Users> {
+    return await this.usersService.update(user, data).catch(() => {
+      throw new HttpException('User not found', HttpStatus.NO_CONTENT);
+    });
   }
 
   @Delete()
