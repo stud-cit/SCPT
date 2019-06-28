@@ -56,9 +56,12 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
-# dotenv environment variables file
+# Dotenv environment variables file
 .env
 .env.production
+
+# Typeorm model generator
+.tomg-config
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
