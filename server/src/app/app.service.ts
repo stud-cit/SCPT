@@ -1,8 +1,31 @@
 import { Injectable } from '@nestjs/common';
 
+import { Repository, DeleteResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+
+import { ConfingCreateDto } from './dto/config.dto';
+import { App } from './app.entity';
+
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  constructor(
+    @InjectRepository(App)
+    private readonly appRepository: Repository<App>,
+  ) {}
+
+  async create(config: ConfingCreateDto): Promise<App> {
+    return await this.appRepository.save(config);
+  }
+
+  async select(): Promise<App> {
+    return await this.appRepository.findOneOrFail({
+      order: {
+        id: 'DESC',
+      },
+    });
+  }
+
+  async delete(id: number): Promise<DeleteResult> {
+    return await this.appRepository.delete(id);
   }
 }
