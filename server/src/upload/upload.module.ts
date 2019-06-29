@@ -27,7 +27,7 @@ import { ConfigService } from '../config/config.service';
             configService.getSetting('PWD') +
             configService.getSetting('MULTER_DEST'),
 
-          filename: async (_req, file, cb) => {
+          filename: (_req, file, cb) => {
             return cb(null, `${v4()}${extname(file.originalname)}`);
           },
         }),
