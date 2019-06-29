@@ -7,17 +7,23 @@ import { App } from './app.entity';
 
 import { ConfigModule } from '../config/config.module';
 import { DatabaseModule } from '../database/database.module';
+import { UpdloadModule } from '../upload/upload.module';
 
+import { ArticlesModule } from '../modules/articles/articles.module';
 import { AuthModule } from '../modules/auth/auth.module';
 import { UsersModule } from '../modules/users/users.module';
 
 @Global()
 @Module({
   imports: [
-    AuthModule,
-    DatabaseModule,
-    TypeOrmModule.forFeature([App]),
     ConfigModule,
+    DatabaseModule,
+    UpdloadModule,
+
+    TypeOrmModule.forFeature([App]),
+
+    ArticlesModule,
+    AuthModule,
     UsersModule,
   ],
   providers: [AppService],
