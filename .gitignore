@@ -71,6 +71,7 @@ typings/
 
 # nuxt.js build output
 .nuxt
+client/assets/img
 
 # SSL components
 *.key
