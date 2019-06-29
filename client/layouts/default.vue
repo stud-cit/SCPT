@@ -1,16 +1,46 @@
 <template>
-  <v-app light>
-    <v-toolbar app fixed class="white--text hidden-xs-only" color="indigo">
+  <v-app>
+    <v-toolbar app dark class="white--text pr-0" color="indigo">
       <v-toolbar-title>
-        <v-icon color="white">mdi-vuetify</v-icon>
+        <v-icon>mdi-vuetify</v-icon>
         Title
       </v-toolbar-title>
       <v-spacer />
-      <v-toolbar-items v-for="(page, i) in pages" :key="i">
+
+      <v-toolbar-items
+        v-for="(page, i) in pages"
+        :key="i"
+        class="hidden-sm-and-down"
+      >
         <v-btn flat :to="page.to" exact>
-          <div class=" white--text">{{ page.title }}</div>
+          {{ page.title }}
         </v-btn>
       </v-toolbar-items>
+
+      <v-speed-dial
+        v-model="burger"
+        direction="bottom"
+        transition="scale-transition"
+        class="hidden-md-and-up"
+      >
+        <template v-slot:activator>
+          <v-btn v-model="burger" fab icon small>
+            <v-icon medium>mdi-menu</v-icon>
+            <v-icon medium>mdi-close</v-icon>
+          </v-btn>
+        </template>
+        <v-btn
+          v-for="(page, i) in pages"
+          :key="i"
+          :to="page.to"
+          exact
+          fab
+          small
+          color="indigo"
+        >
+          <v-icon>{{ page.icon }}</v-icon>
+        </v-btn>
+      </v-speed-dial>
     </v-toolbar>
 
     <Carousel :items="carusel" hide-controls hide-delimiters />
@@ -76,6 +106,8 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class DefaultLayuot extends Vue {
+  burger: boolean = false;
+
   pages = [
     { title: 'Головна', icon: 'mdi-home', to: '/' },
     { title: 'Напрямки', icon: 'mdi-ticket', to: '/directions' },
