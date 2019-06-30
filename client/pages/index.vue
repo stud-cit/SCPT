@@ -2,7 +2,7 @@
   <v-container grid-list-lg>
     <v-layout align-center fill-height collumn wrap>
       <v-flex xs12 class="text-xs-center display-2 my-5">Анонси</v-flex>
-      <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm12 md6>
+      <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm6 lg4>
         <v-card @click.stop="onArticleViewer(announcement)">
           <CustomImage :data="announcement" :aspect-ratio="6 / 4">
             <v-container>
