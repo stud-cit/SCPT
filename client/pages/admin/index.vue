@@ -34,27 +34,27 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class AdminPage extends Vue {
-    headers=[
-      {
+  headers = [
+    {
       text: 'Name',
       align: 'left',
       sortable: false,
-      value: 'name'
-      },
-      { text: 'Course', value: 'course' },
-      { text: 'Phone', value: 'phone' },
-      { text: 'data', value: 'data' },
-    ];
-    items = new Array(15).fill('').map((item, i) => ({
-      name: `lorem${i+1}`,
-      course: `lorem${i+1}`,
-      phone: `lorem${i+1}`,
-      data: `lorem${i+1}`
-    }));
-    CallHeaders(){
-      return this.headers;
-    };
+      value: 'name',
+    },
+    { text: 'Course', value: 'course' },
+    { text: 'Phone', value: 'phone' },
+    { text: 'data', value: 'data' },
+  ];
+  items = new Array(15).fill('').map((item, i) => ({
+    name: `lorem${i + 1}`,
+    course: `lorem${i + 1}`,
+    phone: `lorem${i + 1}`,
+    data: `lorem${i + 1}`,
+  }));
+  CallHeaders() {
+    return this.headers;
   }
+}
 </script>
 
 <style scoped></style>
