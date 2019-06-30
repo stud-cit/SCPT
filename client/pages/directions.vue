@@ -1,11 +1,14 @@
 <template>
   <v-layout column>
-    <v-flex xs5 row>
-      <v-layout>
-        <v-select v-model="id" :items="ids" label="Напрямки"></v-select>
-        <v-btn ref="button" color="primary" flat block @click="$vuetify.goTo(target(),{durraton:300})">Обрати</v-btn>
-    </v-layout>
-    </v-flex>
+    <v-container grid-list-lg d-flex>
+      <v-layout align-center justify-center wrap row>
+        <v-flex v-for="(dirrection,i) in dirrections" :key="i">
+          <v-layout justify-center>
+            <v-chip outline color="primary" @click="$vuetify.goTo('#'+dirrection.id,{durraton:300})">{{dirrection.title}}</v-chip>
+          </v-layout>
+        </v-flex>
+      </v-layout>
+    </v-container>
     <v-container v-for="(dirrection, i) in dirrections" :key="i">
       <v-layout :id="dirrection.id"class="display-1 font-weight-light my-3">
         {{ dirrection.title }}
@@ -62,11 +65,7 @@ import { Component, Vue } from 'vue-property-decorator';
   },
 })
 export default class WayPage extends Vue {
-  id = "#direction1";
-  ids = new Array(10).fill('').map((item, i) => ([
-      `#direction${i+1}`
-  ]));
-  dirrections = new Array(10).fill('').map((item, i) => ({
+  dirrections = new Array(20).fill('').map((item, i) => ({
     title: `Напрямок ${i + 1}`,
     id: `direction${i+1}`,
     documents: [
@@ -86,9 +85,6 @@ export default class WayPage extends Vue {
 
   async download(src) {
     return await 0;
-  }
-  target() {
-    return this.id[0];
   }
 }
 </script>
