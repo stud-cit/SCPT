@@ -4,7 +4,12 @@ import { Controller, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiUseTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiImplicitFile,
+} from '@nestjs/swagger';
 
 import { ArticleCreateDto } from './dto/articles.dto';
 import { ArticlesService } from './articles.service';
@@ -24,6 +29,8 @@ export class ArticlesController {
 
   @Post(':id/upload')
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiImplicitFile({ name: 'file', required: true })
   async uploadFile(@UploadedFile() file) {
     return await file.filename;
   }
