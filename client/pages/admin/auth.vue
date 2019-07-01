@@ -4,13 +4,6 @@
       <v-card>
         <v-card-title primary-title>
           <v-layout align-center column>
-            <!-- <v-flex xs12 class="headline primary--text">
-              Title
-              <v-icon color="primary" large>mdi-database-check</v-icon>
-              <h2 class="title grey--text pt-4">
-                Description
-              </h2>
-            </v-flex> -->
           </v-layout>
         </v-card-title>
 
@@ -23,7 +16,7 @@
           <v-card-text>
             <TextField
               rules="required"
-              v-model="email"
+              v-model="login"
               type="text"
               label="Логін"
             />
@@ -35,7 +28,7 @@
               vid="confirm"
             />
             <TextField
-              v-if="true"
+              v-if="!isConfigure"
               rules="required|confirmed:confirm"
               type="password"
               label="Підтвердіть пароль"
@@ -44,7 +37,7 @@
 
           <v-card-actions>
             <v-spacer />
-            <v-btn v-if="true" color="primary" flat @click="singin">
+            <v-btn v-if="!isConfigure" color="primary" flat @click="singin">
               Зареєструватися
             </v-btn>
             <v-btn v-else color="primary" outline @click="singin">
@@ -53,6 +46,9 @@
           </v-card-actions>
         </ValidationObserver>
       </v-card>
+      <v-alert v-model="error" type="error" dismissible >
+        Неправильний логін або пароль
+      </v-alert>
     </v-flex>
   </v-layout>
 </template>
@@ -60,9 +56,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import { ValidationObserver } from 'vee-validate';
+import { mapGetters } from 'vuex';
 
 @Component({
   layout: 'blank',
+  middleware: ['guest'],
   head: {
     title: 'Вхід',
   },
@@ -70,13 +68,17 @@ import { ValidationObserver } from 'vee-validate';
     TextField: () => import('~/components/inputs/TextField'),
     ValidationObserver,
   },
+  computed: {
+    ...mapGetters(['isConfigure']),
+  },
 })
 export default class AuthPage extends Vue {
-  email: string = '';
-  password: string = '';
+  login: string = null;
+  password: string = null;
+  error: boolean = false;
 
   getPasswordRules() {
-    if (false) {
+    if (!this.isConfigure) {
       return '|min:8';
     }
 
@@ -86,13 +88,23 @@ export default class AuthPage extends Vue {
   async singin() {
     const isValid = await this.$refs.observer.validate();
     if (!isValid) return;
+    if (!this.isConfigure) {
+      await this.$axios.post('users', {
+        login: this.login,
+        password: this.password
+      })
+    }
 
-    // return await this.$auth.loginWith('local', {
-    //   data: {
-    //     email: this.email,
-    //     password: this.password
-    //   },
-    // });
+    const auth = await this.$auth.loginWith('local', {
+      data: {
+        login: this.login,
+        password: this.password
+      },
+    }).then((data) => {
+      this.$router.push('/admin')
+    }).catch((data) => {
+      this.error = true
+    })
   }
 }
 </script>
