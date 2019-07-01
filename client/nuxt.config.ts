@@ -4,11 +4,6 @@ import VuetifyLoaderPlugin from 'vuetify-loader/lib/plugin';
 import { ConfigService } from './utils/config/config.service';
 const configService = new ConfigService();
 
-console.log([
-  configService.getSetting('APP_PORT'),
-  configService.getSetting('APP_TIMG'),
-]);
-
 const config: NuxtConfiguration = {
   /*
    ** Server options
@@ -52,6 +47,33 @@ const config: NuxtConfiguration = {
   /*
    * Build configuration
    */
+
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
+
+  axios: {
+    baseURL: 'http://127.0.0.1:8081/api',
+  },
+
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/auth', method: 'post', propertyName: 'token' },
+          user: { url: '/users', method: 'get', propertyName: '' },
+          logout: false,
+        },
+        tokenRequired: true,
+        tokenType: 'Bearer',
+      },
+    },
+    redirect: {
+      login: '/',
+      logout: '/',
+      callback: '/',
+      user: '/admin',
+    },
+  },
+
   build: {
     extractCSS: true,
     transpile: ['vuetify/lib'],
