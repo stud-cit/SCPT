@@ -26,6 +26,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
+  middleware: ['auth'],
   head: {
     title: 'Адмін панель',
   },
