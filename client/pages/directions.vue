@@ -2,15 +2,20 @@
   <v-layout column>
     <v-container grid-list-lg d-flex>
       <v-layout align-center justify-center wrap row>
-        <v-flex v-for="(dirrection,i) in dirrections" :key="i">
+        <v-flex v-for="(dirrection, i) in dirrections" :key="i">
           <v-layout justify-center>
-            <v-chip outline color="primary" @click="$vuetify.goTo('#'+dirrection.id,{durraton:300})">{{dirrection.title}}</v-chip>
+            <v-chip
+              outline
+              color="primary"
+              @click="$vuetify.goTo('#' + dirrection.id, { durraton: 300 })"
+              >{{ dirrection.title }}</v-chip
+            >
           </v-layout>
         </v-flex>
       </v-layout>
     </v-container>
     <v-container v-for="(dirrection, i) in dirrections" :key="i">
-      <v-layout :id="dirrection.id"class="display-1 font-weight-light my-3">
+      <v-layout :id="dirrection.id" class="display-1 font-weight-light my-3">
         {{ dirrection.title }}
       </v-layout>
       <v-container fluid grid-list-lg>
@@ -67,7 +72,7 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class WayPage extends Vue {
   dirrections = new Array(20).fill('').map((item, i) => ({
     title: `Напрямок ${i + 1}`,
-    id: `direction${i+1}`,
+    id: `direction${i + 1}`,
     documents: [
       {
         title: `Документ ${i + 1}`,
