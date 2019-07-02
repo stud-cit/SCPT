@@ -3,11 +3,13 @@
     <v-layout align-center fill-height collumn wrap>
       <v-layout justify-center aling-center row>
         <v-flex xs6>
-          <v-text-field
+          <v-slider
             v-model="AnnoncementCount"
             label="Введіть кількість новин"
-            readonly
-          ></v-text-field>
+            :max="10"
+            thumb-label
+            @change="onChangeAnnouncements(AnnoncementCount)"
+          ></v-slider>
         </v-flex>
         <v-btn icon @click="onChangeAnnouncements(AnnoncementCount++)">
           <v-icon>mdi-plus</v-icon>
