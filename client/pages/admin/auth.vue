@@ -3,8 +3,7 @@
     <v-flex xs12 sm5 md4>
       <v-card>
         <v-card-title primary-title>
-          <v-layout align-center column>
-          </v-layout>
+          <v-layout align-center column> </v-layout>
         </v-card-title>
 
         <ValidationObserver
@@ -46,7 +45,7 @@
           </v-card-actions>
         </ValidationObserver>
       </v-card>
-      <v-alert v-model="error" type="error" dismissible >
+      <v-alert v-model="error" type="error" dismissible>
         Неправильний логін або пароль
       </v-alert>
     </v-flex>
@@ -91,20 +90,23 @@ export default class AuthPage extends Vue {
     if (!this.isConfigure) {
       await this.$axios.post('users', {
         login: this.login,
-        password: this.password
-      })
+        password: this.password,
+      });
     }
 
-    const auth = await this.$auth.loginWith('local', {
-      data: {
-        login: this.login,
-        password: this.password
-      },
-    }).then((data) => {
-      this.$router.push('/admin')
-    }).catch((data) => {
-      this.error = true
-    })
+    const auth = await this.$auth
+      .loginWith('local', {
+        data: {
+          login: this.login,
+          password: this.password,
+        },
+      })
+      .then(data => {
+        this.$router.push('/admin');
+      })
+      .catch(data => {
+        this.error = true;
+      });
   }
 }
 </script>

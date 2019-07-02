@@ -17,12 +17,12 @@ import { Component, Vue } from 'vue-property-decorator';
     CustomImage: () => import('~/components/CustomImage'),
   },
   validate({ params, query }) {
-    return Number(params.id)
+    return Number(params.id);
   },
-  async asyncData({ params, $axios }){
+  async asyncData({ params, $axios }) {
     const article = await $axios.$get(`articles/${params.id}`);
     return { article };
-  }
+  },
 })
 export default class ArticlePage extends Vue {
   dialog: boolean = true;

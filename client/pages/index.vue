@@ -102,7 +102,7 @@ export default class HomePage extends Vue {
         type: 'image',
         alt: 'Lorem Alt',
         src: 'https://picsum.photos/1366/728?image=10',
-      }
+      },
     ],
     link: 'hi',
     updateAt: new Date(),

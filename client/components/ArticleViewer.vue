@@ -50,19 +50,19 @@
 
               <v-card v-if="content.type == 'image'" flat>
                 <v-img
-                  :aspect-ratio="16/9"
-                  :alt='content.alt'
-                  :src='content.src'
+                  :aspect-ratio="16 / 9"
+                  :alt="content.alt"
+                  :src="content.src"
                 />
 
                 <v-card-title primary-title>
                   <span class="primary--text font-weight-bold">#</span>
-                  <span class="text-uppercase" >{{ content.alt }}</span>
+                  <span class="text-uppercase">{{ content.alt }}</span>
                 </v-card-title>
                 <v-text-field
-                  v-model='content.alt'
+                  v-model="content.alt"
                   :label="imageUpload.placeholder"
-                  prepend-icon='mdi-pound'
+                  prepend-icon="mdi-pound"
                 />
               </v-card>
             </v-container>
@@ -87,7 +87,6 @@
               </v-btn>
             </v-layout>
           </v-flex>
-
         </v-layout>
       </v-card>
     </v-dialog>
@@ -99,7 +98,6 @@
       accept="image/*"
       @change="onFileChange"
     />
-
   </v-layout>
 </template>
 
@@ -113,25 +111,24 @@ export default class ArticleViewer extends Vue {
   textFilling = {
     open: false,
     filling: null,
-    placeholder: 'Що нового ?'
-  }
+    placeholder: 'Що нового ?',
+  };
 
   imageUpload = {
     open: false,
     alt: null,
     src: null,
-    placeholder: 'Опис зображення'
-  }
+    placeholder: 'Опис зображення',
+  };
 
   content = [];
 
-  launchTextArea () {
-    if(this.textFilling.filling !== null) {
+  launchTextArea() {
+    if (this.textFilling.filling !== null) {
       this.data.content.push({
         type: 'text',
-        filling: this.textFilling.filling
-          .replace(/\n/g, '</br>')
-      })
+        filling: this.textFilling.filling.replace(/\n/g, '</br>'),
+      });
     }
 
     this.textFilling.open = !this.textFilling.open;
@@ -146,9 +143,9 @@ export default class ArticleViewer extends Vue {
     const files = e.target.files;
     const fr = new FileReader();
 
-    fr.readAsDataURL(files[0])
+    fr.readAsDataURL(files[0]);
     fr.addEventListener('load', () => {
-      this.imageFile = files[0]
+      this.imageFile = files[0];
 
       this.imageUpload.alt = null; //TO-DO: get def alt from global config
       this.imageUpload.src = fr.result;
@@ -156,9 +153,9 @@ export default class ArticleViewer extends Vue {
       this.data.content.push({
         type: 'image',
         alt: this.imageUpload.alt,
-        src: this.imageUpload.src
-      })
-    })
+        src: this.imageUpload.src,
+      });
+    });
 
     this.imageUpload.open = !this.imageUpload.open;
     this.imageUpload.alt = null;
