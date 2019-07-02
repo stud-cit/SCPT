@@ -1,5 +1,5 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsString, IsUrl, IsArray } from 'class-validator';
+import { IsNumber, IsString, IsUrl, IsArray } from 'class-validator';
 
 export class ArticleContentText {
   @ApiModelProperty()
@@ -26,6 +26,10 @@ export class ArticleContentImage {
 }
 
 export class ArticleCreateDto {
+  @ApiModelProperty()
+  @IsNumber()
+  readonly id: number;
+
   @ApiModelProperty()
   @IsString()
   readonly title: string;

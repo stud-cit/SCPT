@@ -27,7 +27,7 @@ export class ArticlesController {
     });
   }
 
-  @Post(':id/upload')
+  @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   @ApiConsumes('multipart/form-data')
   @ApiImplicitFile({ name: 'file', required: true })
@@ -38,6 +38,13 @@ export class ArticlesController {
   @Get()
   async select(): Promise<Articles[]> {
     return await this.articlesService.select();
+  }
+
+  @Get(':id')
+  async selectByID(@Param('id') id: number): Promise<Articles> {
+    return await this.articlesService.selectByID(id).catch(() => {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    });
   }
 
   @Put()
