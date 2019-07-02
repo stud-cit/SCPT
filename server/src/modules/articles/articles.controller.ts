@@ -21,6 +21,8 @@ export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 
   @Post()
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   async create(@Body() data: ArticleCreateDto): Promise<Articles> {
     return await this.articlesService.create(data).catch(() => {
       throw new HttpException(`Rating already exists`, HttpStatus.CONFLICT);
@@ -28,8 +30,10 @@ export class ArticlesController {
   }
 
   @Post('upload')
-  @UseInterceptors(FileInterceptor('file'))
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard('jwt'))
   @ApiConsumes('multipart/form-data')
+  @UseInterceptors(FileInterceptor('file'))
   @ApiImplicitFile({ name: 'file', required: true })
   async uploadFile(@UploadedFile() file) {
     return await file.filename;
