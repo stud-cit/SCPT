@@ -22,7 +22,7 @@ export class ArticlesService {
   }
 
   async selectByID(id: number): Promise<Articles> {
-    return await this.articlesRepository.findOne(id);
+    return await this.articlesRepository.findOneOrFail(id);
   }
 
   async update(articles: Articles, data: ArticleCreateDto): Promise<Articles> {

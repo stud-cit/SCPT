@@ -1,10 +1,34 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, IsUrl } from 'class-validator';
+import { IsNumber, IsString, IsUrl, IsArray } from 'class-validator';
+
+export class ArticleContentText {
+  @ApiModelProperty()
+  @IsString()
+  readonly type: string;
+
+  @ApiModelProperty()
+  @IsString()
+  readonly filling: string;
+}
+
+export class ArticleContentImage {
+  @ApiModelProperty()
+  @IsString()
+  readonly type: string;
+
+  @ApiModelProperty()
+  @IsString()
+  readonly alt: string;
+
+  @ApiModelProperty()
+  @IsString()
+  readonly src: string;
+}
 
 export class ArticleCreateDto {
   @ApiModelProperty()
   @IsNumber()
-  readonly id?: number;
+  readonly id: number;
 
   @ApiModelProperty()
   @IsString()
@@ -19,6 +43,6 @@ export class ArticleCreateDto {
   readonly description?: string;
 
   @ApiModelProperty()
-  @IsString()
-  readonly content?: string;
+  @IsArray()
+  readonly content?: [ArticleContentText | ArticleContentImage];
 }

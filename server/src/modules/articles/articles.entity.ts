@@ -6,6 +6,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
+import { ArticleContentText, ArticleContentImage } from './dto/articles.dto';
+
 @Entity('Articles', { schema: 'SCPT' })
 @Index('title', ['title'], { unique: true })
 export class Articles extends BaseEntity {
@@ -34,11 +36,11 @@ export class Articles extends BaseEntity {
   })
   description: string;
 
-  @Column('varchar', {
+  @Column('json', {
     nullable: true,
     name: 'content',
   })
-  content: string;
+  content?: [ArticleContentImage | ArticleContentText];
 
   @Column('timestamp', {
     nullable: false,

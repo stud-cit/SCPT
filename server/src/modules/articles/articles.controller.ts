@@ -4,7 +4,12 @@ import { Controller, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor, UploadedFile } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiUseTags,
+  ApiBearerAuth,
+  ApiConsumes,
+  ApiImplicitFile,
+} from '@nestjs/swagger';
 
 import { ArticleCreateDto } from './dto/articles.dto';
 import { ArticlesService } from './articles.service';
@@ -22,8 +27,10 @@ export class ArticlesController {
     });
   }
 
-  @Post(':id/upload')
+  @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
+  @ApiConsumes('multipart/form-data')
+  @ApiImplicitFile({ name: 'file', required: true })
   async uploadFile(@UploadedFile() file) {
     return await file.filename;
   }
@@ -31,6 +38,13 @@ export class ArticlesController {
   @Get()
   async select(): Promise<Articles[]> {
     return await this.articlesService.select();
+  }
+
+  @Get(':id')
+  async selectByID(@Param('id') id: number): Promise<Articles> {
+    return await this.articlesService.selectByID(id).catch(() => {
+      throw new HttpException('Article not found', HttpStatus.NOT_FOUND);
+    });
   }
 
   @Put()
