@@ -47,56 +47,61 @@
         </v-btn>
       </v-speed-dial>
     </v-toolbar>
-    <v-navigation-drawer app class="indigo" v-model="draver" dark floating clipped>
-      <v-toolbar flat color= "indigo">
+    <v-navigation-drawer
+      app
+      class="indigo"
+      v-model="draver"
+      dark
+      floating
+      clipped
+    >
+      <v-toolbar flat color="indigo">
         <v-list>
-          <v-divider/>
+          <v-divider />
           <v-list-tile>
             <v-list-tile-title class="title text-xs-left">
               Advanced Settings
             </v-list-tile-title>
           </v-list-tile>
-          <v-divider/>
+          <v-divider />
         </v-list>
       </v-toolbar>
       <v-list>
-        <v-list-tile
-        v-for="item in items"
-        :key="item.title"
-        :to="item.to"
-        >
-        <v-list-tile-action>
-          <v-icon>mdi-settings</v-icon>
-        </v-list-tile-action>
+        <v-list-tile v-for="item in items" :key="item.title" :to="item.to">
+          <v-list-tile-action>
+            <v-icon>mdi-settings</v-icon>
+          </v-list-tile-action>
 
-        <v-list-tile-content>
-          <v-list-tile-title class = 'white--text'>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-footer height="auto" color="indigo" inset fixed>
-        <v-flex column pb-1>
-          <v-divider/>
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-icon>mdi-settings</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              Change Login
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-list-tile @click="">
-            <v-list-tile-action>
-              <v-icon>mdi-settings</v-icon>
-            </v-list-tile-action>
-            <v-list-tile-content>
-              Change Password
-            </v-list-tile-content>
-          </v-list-tile>
-          <v-divider/>
-        </v-flex>
-      </v-footer>
-    </v-list>
-  </v-navigation-drawer>
+          <v-list-tile-content>
+            <v-list-tile-title class="white--text">{{
+              item.title
+            }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-footer height="auto" color="indigo" inset fixed>
+          <v-flex column pb-1>
+            <v-divider />
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon>mdi-settings</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                Change Login
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile @click="">
+              <v-list-tile-action>
+                <v-icon>mdi-settings</v-icon>
+              </v-list-tile-action>
+              <v-list-tile-content>
+                Change Password
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-divider />
+          </v-flex>
+        </v-footer>
+      </v-list>
+    </v-navigation-drawer>
     <v-content>
       <nuxt />
     </v-content>
@@ -121,7 +126,8 @@ export default class DashboardLayout extends Vue {
   ];
 
   items = [
-    { title : 'Курси', to: '../admin/courses'}
-  ]
+    { title: 'Слайдер', to: '../admin/carousel' },
+    { title: 'Курси', to: '../admin/courses' },
+  ];
 }
 </script>

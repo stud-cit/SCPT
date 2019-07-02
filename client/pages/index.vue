@@ -1,7 +1,31 @@
 <template>
   <v-container grid-list-lg>
     <v-layout align-center fill-height collumn wrap>
-      <v-flex xs12 class="text-xs-center display-2 my-5">Анонси</v-flex>
+      <v-layout justify-center aling-center row>
+        <v-flex xs6>
+          <v-text-field
+            v-model="AnnoncementCount"
+            label="Введіть кількість новин"
+            readonly
+          ></v-text-field>
+        </v-flex>
+        <v-btn icon @click="onChangeAnnouncements(AnnoncementCount++)">
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
+        <v-btn
+          icon
+          v-if="AnnoncementCount > 0"
+          @click="onChangeAnnouncements(AnnoncementCount--)"
+        >
+          <v-icon>mdi-minus</v-icon>
+        </v-btn>
+      </v-layout>
+      <v-flex
+        xs12
+        class="text-xs-center display-2 my-5"
+        v-if="AnnoncementCount > 0"
+        >Анонси</v-flex
+      >
       <v-flex v-for="(announcement, i) in announcements" :key="i" xs12 sm6 lg4>
         <v-card @click.stop="onArticleViewer(announcement)">
           <CustomImage :data="announcement" :aspect-ratio="6 / 4">
@@ -58,6 +82,7 @@ export default class HomePage extends Vue {
   currentArticle = {};
   announcements = [];
   descriptionLength = 140;
+  AnnoncementCount = 3;
 
   articles = new Array(20).fill('').map((item, i) => ({
     title: `Title ${i}`,
@@ -75,7 +100,10 @@ export default class HomePage extends Vue {
   created() {
     this.announcements = this.articles.splice(0, 3);
   }
-
+  onChangeAnnouncements(AnnoncementCount) {
+    this.articles = [...this.announcements, ...this.articles];
+    this.announcements = this.articles.splice(0, this.AnnoncementCount);
+  }
   descriptionPrepare(str) {
     return `${str.substr(0, this.descriptionLength)}...`;
   }
