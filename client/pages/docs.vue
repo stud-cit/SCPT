@@ -3,7 +3,7 @@
     <v-layout align-cente justify-center wrap>
       <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm5 md4 lg3>
         <v-card>
-          <CustomImage :data="doc" :aspect-ratio="70 / 99" />
+          <CustomImage :src="doc.src" :aspect-ratio="70 / 99" />
           <v-card-actions class="pt-4" style="position: relative; z-index:0">
             <v-btn
               @click="download(doc.to)"
@@ -39,7 +39,6 @@ export default class DocsPage extends Vue {
   documents = new Array(2).fill('').map((item, i) => ({
     title: `Документ ${i}`,
     src: `https://picsum.photos/1366/728?image=${i}`,
-    lazySrc: `https://picsum.photos/10/6?image=${i}`,
     to: '/',
   }));
 

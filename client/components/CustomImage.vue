@@ -1,10 +1,5 @@
 <template>
-  <v-img
-    :src="data.src"
-    :lazy-src="data.lazySrc"
-    :alt="data.alt"
-    v-bind="$attrs"
-  >
+  <v-img :src="this.getImage(src)" :art="alt" v-bind="$attrs">
     <slot />
     <template v-slot:placeholder>
       <v-layout fill-height align-center justify-center ma-0>
@@ -19,12 +14,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component()
 export default class CustomImage extends Vue {
-  @Prop({ type: Object, required: true }) data: any;
+  @Prop({ type: String, required: true }) src: string;
+  @Prop({ type: String, required: false }) alt: string;
 }
 </script>
-
-<style>
-.card--flex-toolbar {
-  margin-top: -64px;
-}
-</style>
