@@ -14,7 +14,6 @@ import { Component, Vue } from 'vue-property-decorator';
   },
   components: {
     ArticleViewer: () => import('~/components/ArticleViewer'),
-    CustomImage: () => import('~/components/CustomImage'),
   },
   validate({ params, query }) {
     return Number(params.id);
@@ -29,5 +28,3 @@ export default class ArticlePage extends Vue {
   article: any = null;
 }
 </script>
-
-<style></style>
