@@ -2,16 +2,11 @@
   <v-container>
     <v-layout align-cente justify-center wrap>
       <v-flex xs12>
-        <CustomImage :data="items[page-1]" />
-        <v-text-field v-model="items[page-1].src" label="src"/>
-        <v-text-field v-model="items[page-1].lazySrc" label="lazySrc"/>
+        <CustomImage :data="items[page - 1]" />
+        <v-text-field v-model="items[page - 1].src" label="src" />
+        <v-text-field v-model="items[page - 1].lazySrc" label="lazySrc" />
       </v-flex>
-      <v-pagination
-        v-model="page"
-        :length="itemsLength(items)"
-        >
-
-        </v-pagination>
+      <v-pagination v-model="page" :length="itemsLength(items)"> </v-pagination>
     </v-layout>
   </v-container>
 </template>
@@ -36,7 +31,7 @@ export default class AdminPage extends Vue {
     src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
     lazySrc: `https://picsum.photos/10/6?image=${i * 5 + 10}`,
   }));
-  itemsLength(items){
+  itemsLength(items) {
     return items.length;
   }
 }

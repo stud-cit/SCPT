@@ -59,7 +59,12 @@
               <td>{{ props.item.title }}</td>
               <td class="text-xs-left">{{ props.item.data }}</td>
               <td class="text-xs-center pl-5">
-                <v-btn flat color="primary" @click="props.expanded=!props.expanded">Показати</v-btn>
+                <v-btn
+                  flat
+                  color="primary"
+                  @click="props.expanded = !props.expanded"
+                  >Показати</v-btn
+                >
               </td>
               <td class="text-xs-right">
                 <v-icon small @click="EditCourse(props.item)">
@@ -69,12 +74,12 @@
                   mdi-delete
                 </v-icon>
               </td>
-          </template>
-          <template v-slot:expand="props">
-            <v-card flat>
-              <v-card-text>{{props.item.description}}</v-card-text>
-            </v-card>
-          </template>
+            </template>
+            <template v-slot:expand="props">
+              <v-card flat>
+                <v-card-text>{{ props.item.description }}</v-card-text>
+              </v-card>
+            </template>
           </v-data-table>
         </v-card>
       </v-flex>
@@ -168,8 +173,12 @@
               <td class="text-xs-left">{{ props.item.phone }}</td>
               <td class="text-xs-left">{{ props.item.data }}</td>
               <td class="text-xs-left pl-5">
-                <v-icon v-if="props.item.validation==true"  class="green--text">mdi-check</v-icon>
-                <v-icon v-if="props.item.validation==false" class="red--text">mdi-close</v-icon>
+                <v-icon v-if="props.item.validation == true" class="green--text"
+                  >mdi-check</v-icon
+                >
+                <v-icon v-if="props.item.validation == false" class="red--text"
+                  >mdi-close</v-icon
+                >
               </td>
               <td class="text-xs-right">
                 <v-icon small @click="EditUser(props.item)">
@@ -202,14 +211,15 @@ import { Component, Vue } from 'vue-property-decorator';
 export default class AdminPage extends Vue {
   dialogCourse: boolean = false;
   dialogUsers: boolean = false;
-  expand : boolean = false;
+  expand: boolean = false;
 
-  rules ={
+  rules = {
     required: value => !!value || 'Required.',
     email: value => {
-      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return pattern.test(value) || 'Invalid e-mail.'
-  }};
+      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return pattern.test(value) || 'Invalid e-mail.';
+    },
+  };
 
   editedIndex = -1;
 
@@ -217,13 +227,13 @@ export default class AdminPage extends Vue {
     title: null,
     data: null,
     users: [],
-    description : null,
+    description: null,
   };
   defaultCourse = {
     title: null,
     data: null,
     users: [],
-    description : null,
+    description: null,
   };
 
   editUser = {
@@ -232,7 +242,7 @@ export default class AdminPage extends Vue {
     email: null,
     phone: null,
     data: null,
-    validation : true,
+    validation: true,
   };
   defaultUser = {
     name: null,
@@ -240,7 +250,7 @@ export default class AdminPage extends Vue {
     email: null,
     phone: null,
     data: null,
-    validation : true,
+    validation: true,
   };
   coursesHeaders = [
     {
@@ -251,7 +261,7 @@ export default class AdminPage extends Vue {
     },
     { text: 'Дата', value: 'data' },
     { text: 'Опис', align: 'center', value: 'description' },
-    { text: '',align: 'right', sortable: false,  },
+    { text: '', align: 'right', sortable: false },
   ];
 
   userHeaders = [
@@ -285,16 +295,15 @@ export default class AdminPage extends Vue {
       email: `lorem${i + 1}@gmail.com`,
       phone: `+38095033005${i + 1}`,
       data: `lorem${i + 1}`,
-      validation : true,
+      validation: true,
     })),
-    description : `lorem ipsum ${i+1}`,
+    description: `lorem ipsum ${i + 1}`,
   }));
 
-
-  EditCourse (item) {
-    this.editedIndex = this.courses.indexOf(item)
-    this.editCourse = Object.assign({}, item)
-    this.dialogCourse = true
+  EditCourse(item) {
+    this.editedIndex = this.courses.indexOf(item);
+    this.editCourse = Object.assign({}, item);
+    this.dialogCourse = true;
   }
   SaveCourse() {
     if (this.editedIndex > -1) {
@@ -314,14 +323,13 @@ export default class AdminPage extends Vue {
   DeleteCourse(item) {
     const index = this.courses.indexOf(item);
     confirm('Ви впевненi, що хочете видалити курс?') &&
-    this.courses.splice(index, 1);
+      this.courses.splice(index, 1);
   }
 
-
-  EditUser (item) {
-    this.editedIndex = this.selected.users.indexOf(item)
-    this.editUser = Object.assign({}, item)
-    this.dialogUsers = true
+  EditUser(item) {
+    this.editedIndex = this.selected.users.indexOf(item);
+    this.editUser = Object.assign({}, item);
+    this.dialogUsers = true;
   }
   SaveUser() {
     if (this.editedIndex > -1) {
@@ -341,7 +349,7 @@ export default class AdminPage extends Vue {
   DeleteUser(item) {
     const index = this.selected.users.indexOf(item);
     confirm('Ви впевненi, що хочете видалити користувача?') &&
-    this.selected.users.splice(index, 1);
+      this.selected.users.splice(index, 1);
   }
 }
 </script>

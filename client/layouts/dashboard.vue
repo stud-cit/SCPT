@@ -127,6 +127,7 @@ export default class DashboardLayout extends Vue {
 
   items = [
     { title: 'Слайдер', to: '../admin/carousel' },
+    { title: 'Документи', to: '../admin/docs' },
     { title: 'Курси', to: '../admin/courses' },
   ];
 }
