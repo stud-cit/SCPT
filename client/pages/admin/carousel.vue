@@ -1,9 +1,9 @@
 <template>
   <v-container grid-list-lg>
     <v-layout wrap>
-      <v-flex xs12 sm5 md4 lg2 py-3>
+      <v-flex xs12 sm5 md4 lg3 py-3>
         <v-card>
-          <v-responsive :aspect-ratio="70 / 99">
+          <v-responsive :aspect-ratio="16 / 9">
             <v-layout align-center justify-center fill-height>
               <v-btn @click="$refs.file.click()" outline fab large>
                 <v-icon large>mdi-plus</v-icon>
@@ -13,9 +13,9 @@
         </v-card>
       </v-flex>
 
-      <v-flex v-for="(src, i) in carousel" :key="i" xs12 sm5 md4 lg2 py-3>
+      <v-flex v-for="(item, i) in carousel" :key="i" xs12 sm5 md4 lg3 py-3>
         <v-card>
-          <CustomImage :data="src" :aspect-ratio="70 / 99" />
+          <CustomImage :src="item.src" :aspect-ratio="16 / 9" />
             <v-btn @click="deleteImage(i)" color="primary" absolute right bottom fab>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
@@ -63,7 +63,7 @@ export default class AdminPage extends Vue {
     });
 
     return this.carousel.push({
-      src: src
+      src: patch
     })
   }
 

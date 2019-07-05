@@ -1,76 +1,64 @@
 <template>
   <v-container grid-list-lg>
-    <v-layout align-center justify-center wrap>
-      <v-flex xs12 sm5 md4 lg3>
+    <v-layout justify-start wrap>
+      <v-flex xs12 sm5 md4 lg2>
         <v-card>
-          <v-card-text>
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on }">
-                <v-responsive :aspect-ratio="70 / 99">
-                  <v-layout align-center justify-center row fill-height>
-                    <v-btn v-on="on" outline fab large>
-                      <v-icon large>mdi-plus</v-icon>
-                    </v-btn>
-                  </v-layout>
-                </v-responsive>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <v-container grid-list-md>
-                    <v-layout wrap>
-                      <v-flex xs12>
-                        <v-text-field
-                          v-model="editDoc.title"
-                          label="Назва"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editDoc.src"
-                          label="Дата"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editDoc.lazySrc"
-                          label="Описание"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="editDoc.to"
-                          label="Описание"
-                        ></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-layout justify-space-around aling-center fill-height>
-                    <v-btn color="primary" text @click="CloseDoc">
-                      Закрити
-                    </v-btn>
-                    <v-btn color="primary" text @click="SaveDoc">
-                      Зберегти
-                    </v-btn>
-                  </v-layout>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-card-text>
+          <v-responsive :aspect-ratio="70 / 99">
+            <v-layout align-center justify-center fill-height>
+              <v-btn @click="$refs.file.click()" outline fab large>
+                <v-icon large>mdi-plus</v-icon>
+              </v-btn>
+            </v-layout>
+          </v-responsive>
           <v-divider />
           <v-card-actions class="pt-4" style="position: relative; z-index:0">
-            <span class="title mb-2">Завантажити новий документ</span>
+            <span class="mb-2">Завантажити документ</span>
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm5 md4 lg3>
+      <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm5 md4 lg2>
         <v-card>
-          <CustomImage :data="doc" :aspect-ratio="70 / 99" />
+          <CustomImage :src="doc.src" :aspect-ratio="70 / 99" />
           <v-card-actions class="pt-4" style="position: relative; z-index:0">
-            <v-btn @click="EditDoc(doc)" color="primary" absolute right top fab>
-              <v-icon>mdi-pencil</v-icon>
+            <v-btn @click="deleteDoc(i)" color="error" absolute right top fab>
+              <v-icon>mdi-delete</v-icon>
             </v-btn>
 
-            <span class="title mb-2">{{ doc.title }}</span>
+            <span class="mb-2">{{ doc.title }}</span>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
+    <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12>
+                <input
+                  v-show
+                  ref="file"
+                  type="file"
+                  accept="image/*"
+                  @change="onFileChange"
+                />
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-layout justify-space-around aling-center fill-height>
+            <v-btn color="primary" text @click="">
+              Закрити
+            </v-btn>
+            <v-btn color="primary" text @click="">
+              Зберегти
+            </v-btn>
+          </v-layout>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
   </v-container>
 </template>
 
@@ -88,19 +76,7 @@ import { Component, Vue } from 'vue-property-decorator';
 })
 export default class AdminPage extends Vue {
   dialog: boolean = false;
-  editedIndex = -1;
-  editDoc = {
-    title: null,
-    src: null,
-    lazySrc: null,
-    to: '/',
-  };
-  defaultDoc = {
-    title: null,
-    src: null,
-    lazySrc: null,
-    to: '/',
-  };
+  editDoc = null;
   documents = new Array(5).fill('').map((item, i) => ({
     title: `Документ ${i}`,
     src: `https://picsum.photos/1366/728?image=${i}`,
@@ -108,28 +84,23 @@ export default class AdminPage extends Vue {
     to: '/',
   }));
 
-  async download(src) {
-    return await 0;
+  async onFileChange(e) {
+    const file = e.target.files[0];
+    const data = new FormData();
+    data.append('file', file);
+    const patch = await this.$axios.$post(`upload/`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+
+    return this.documents.push({
+      src: patch
+    })
   }
-  EditDoc(item) {
-    this.editedIndex = this.documents.indexOf(item);
-    this.editDoc = Object.assign({}, item);
-    this.dialog = true;
-  }
-  SaveDoc() {
-    if (this.editedIndex > -1) {
-      Object.assign(this.documents[this.editedIndex], this.editDoc);
-    } else {
-      this.documents.push(this.editDoc);
-    }
-    this.CloseDoc();
-  }
-  CloseDoc() {
-    this.dialog = false;
-    setTimeout(() => {
-      this.editDoc = Object.assign({}, this.defaultDoc);
-      this.editedIndex = -1;
-    }, 300);
+
+  deleteDoc(i) {
+    this.documents.splice(i, 1)
   }
 }
 </script>

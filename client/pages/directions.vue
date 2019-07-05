@@ -24,7 +24,7 @@
             <v-card class="doc">
               <CustomImage
                 class="doc-image"
-                :data="doc"
+                :src="doc.src"
                 :aspect-ratio="70 / 99"
               />
               <v-card-actions

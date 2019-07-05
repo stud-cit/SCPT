@@ -10,12 +10,9 @@ Vue.mixin({
       });
     },
 
-    imageLoadOnError() {
-      return 0;
-    },
-
-    imagePlaceholder() {
-      return '/img/placeholder.svg';
-    },
+    getImage (src) {
+      // const image = require(`~/assets/img/${src}`);
+      return require(`~/static/img/placeholder.svg`);
+    }
   },
 });
