@@ -4,102 +4,78 @@
       <v-flex xs12>
         <v-card>
           <v-toolbar flat color="white">
-            <v-card-title class="title">Courses</v-card-title>
+            <v-card-title class="title">Курси</v-card-title>
             <v-spacer />
-            <v-dialog v-model="DialogCourse" max-width="500px">
+            <v-dialog v-model="dialogCourse" max-width="500px">
               <template v-slot:activator="{ on }">
                 <v-btn color="primary" dark class="mb-2" v-on="on">
                   <v-icon>mdi-plus</v-icon>
-                  New Item
+                  Додати курс
                 </v-btn>
               </template>
               <v-card>
                 <v-card-text>
                   <v-container grid-list-md>
                     <v-layout wrap>
-                      <v-flex xs12 sm6 md4>
+                      <v-flex xs12>
                         <v-text-field
-                          v-model="NewCourse.title"
-                          label="Name"
+                          v-model="editCourse.title"
+                          label="Назва"
                         ></v-text-field>
-                      </v-flex>
-                      <v-flex xs12 sm6 md4>
                         <v-text-field
-                          v-model="NewCourse.data"
-                          label="Data"
+                          v-model="editCourse.data"
+                          label="Дата"
                         ></v-text-field>
+                        <v-textarea
+                          v-model="editCourse.description"
+                          label="Описание"
+                        ></v-textarea>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </v-card-text>
                 <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="CloseCourse"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="blue darken-1" text @click="SaveCourse"
-                    >Save</v-btn
-                  >
+                  <v-layout justify-space-around aling-center fill-height>
+                    <v-btn color="primary" text @click="CloseCourse">
+                      Закрити
+                    </v-btn>
+                    <v-btn color="primary" text @click="SaveCourse">
+                      Зберегти
+                    </v-btn>
+                  </v-layout>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </v-toolbar>
           <v-data-table
-            :headers="CoursesHeaders"
+            :headers="coursesHeaders"
             :items="courses"
+            item-key="title"
+            :expand="expand"
             search
             class="elevation-1"
           >
-            <template v-slot:items="item">
-              <td>
-                <v-edit-dialog
-                  :return-value.sync="item.item.title"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.title }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.title"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.data"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.data }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.data"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
+            <template v-slot:items="props">
+              <td>{{ props.item.title }}</td>
+              <td class="text-xs-left">{{ props.item.data }}</td>
+              <td class="text-xs-center pl-5">
+                <v-btn flat color="primary" @click="props.expanded=!props.expanded">Показати</v-btn>
               </td>
               <td class="text-xs-right">
-                <v-icon small @click="DeleteCourse(item.item)">
+                <v-icon small @click="EditCourse(props.item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="DeleteCourse(props.item)">
                   mdi-delete
                 </v-icon>
               </td>
-            </template>
+          </template>
+          <template v-slot:expand="props">
+            <v-card flat>
+              <v-card-text>{{props.item.description}}</v-card-text>
+            </v-card>
+          </template>
           </v-data-table>
-          <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-            {{ snackText }}
-            <v-btn text flat @click="snack = false">Close</v-btn>
-          </v-snackbar>
         </v-card>
       </v-flex>
     </v-layout>
@@ -118,17 +94,18 @@
       <v-flex xs12>
         <v-card>
           <v-toolbar flat color="white">
-            <v-card-title class="title">Validated Users</v-card-title>
+            <v-card-title class="title">Користувачi</v-card-title>
             <v-spacer />
             <v-dialog
+              persistent
               v-if="isEmpty(selected)"
-              v-model="DialogValidate"
+              v-model="dialogUsers"
               max-width="500px"
             >
               <template v-slot:activator="{ on }">
                 <v-btn color="primary" dark class="mb-2" v-on="on">
                   <v-icon>mdi-plus</v-icon>
-                  New Item
+                  Додати користувача
                 </v-btn>
               </template>
               <v-card>
@@ -136,327 +113,74 @@
                   <v-container grid-list-md>
                     <v-layout wrap>
                       <v-flex xs12>
-                        <v-text-field
-                          v-model="NewUser.name"
-                          label="Name"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.course"
-                          label="Course"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.email"
-                          label="Email"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.phone"
-                          label="Phone"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.data"
-                          label="Data"
-                        ></v-text-field>
+                        <ValidationObserver>
+                          <v-text-field
+                            :rules="[rules.required]"
+                            v-model="editUser.name"
+                            label="ФИО"
+                            type="text"
+                          ></v-text-field>
+                          <v-text-field
+                            :rules="[rules.required]"
+                            v-model="editUser.course"
+                            label="Курс"
+                          ></v-text-field>
+                          <v-text-field
+                            :rules="[rules.email]"
+                            v-model="editUser.email"
+                            label="Email"
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="editUser.phone"
+                            label="Телефон"
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="editUser.data"
+                            label="Дата"
+                          ></v-text-field>
+                        </ValidationObserver>
                       </v-flex>
                     </v-layout>
                   </v-container>
                 </v-card-text>
                 <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="CloseValidate"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="blue darken-1" text @click="SaveValidate"
-                    >Save</v-btn
-                  >
+                  <v-layout justify-space-around aling-center fill-height>
+                    <v-btn color="primary" text @click="CloseUser">
+                      Закрити
+                    </v-btn>
+                    <v-btn color="primary" text @click="SaveUser">
+                      Зберегти
+                    </v-btn>
+                  </v-layout>
                 </v-card-actions>
               </v-card>
             </v-dialog>
           </v-toolbar>
           <v-data-table
-            :headers="UserHeaders"
-            :items="selected.validate"
+            :headers="userHeaders"
+            :items="selected.users"
             class="elevation-1"
           >
-            <template v-slot:items="item">
-              <td>
-                <v-edit-dialog
-                  :return-value.sync="item.item.name"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.name }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.name"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.course"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.course }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.course"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.email"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.email }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.email"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.phone"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.phone }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.phone"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.data"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.data }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.data"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
+            <template v-slot:items="props">
+              <td>{{ props.item.name }}</td>
+              <td class="text-xs-left">{{ props.item.course }}</td>
+              <td class="text-xs-left">{{ props.item.email }}</td>
+              <td class="text-xs-left">{{ props.item.phone }}</td>
+              <td class="text-xs-left">{{ props.item.data }}</td>
+              <td class="text-xs-left pl-5">
+                <v-icon v-if="props.item.validation==true"  class="green--text">mdi-check</v-icon>
+                <v-icon v-if="props.item.validation==false" class="red--text">mdi-close</v-icon>
               </td>
               <td class="text-xs-right">
-                <v-icon small @click="DeleteValidate(item.item)">
+                <v-icon small @click="EditUser(props.item)">
+                  mdi-pencil
+                </v-icon>
+                <v-icon small @click="DeleteUser(props.item)">
                   mdi-delete
                 </v-icon>
               </td>
             </template>
           </v-data-table>
-          <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-            {{ snackText }}
-            <v-btn text flat @click="snack = false">Close</v-btn>
-          </v-snackbar>
-        </v-card>
-      </v-flex>
-    </v-layout>
-    <v-layout mt-5>
-      <v-flex xs12>
-        <v-card>
-          <v-toolbar flat color="white">
-            <v-card-title class="title">Not Validated Users</v-card-title>
-            <v-spacer />
-            <v-dialog
-              v-if="isEmpty(selected)"
-              v-model="DialogNotValidate"
-              max-width="500px"
-            >
-              <template v-slot:activator="{ on }">
-                <v-btn color="primary" dark class="mb-2" v-on="on">
-                  <v-icon>mdi-plus</v-icon>
-                  New Item
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <v-container grid-list-md>
-                    <v-layout wrap>
-                      <v-flex xs12>
-                        <v-text-field
-                          v-model="NewUser.name"
-                          label="Name"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.course"
-                          label="Course"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.email"
-                          label="Email"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.phone"
-                          label="Phone"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="NewUser.data"
-                          label="Data"
-                        ></v-text-field>
-                      </v-flex>
-                    </v-layout>
-                  </v-container>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="blue darken-1" text @click="CloseNotValidate"
-                    >Cancel</v-btn
-                  >
-                  <v-btn color="blue darken-1" text @click="SaveNotValidate"
-                    >Save</v-btn
-                  >
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar>
-          <v-data-table
-            :headers="UserHeaders"
-            :items="selected.notvalidate"
-            class="elevation-1"
-          >
-            <template v-slot:items="item">
-              <td>
-                <v-edit-dialog
-                  :return-value.sync="item.item.name"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.name }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.name"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.course"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.course }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.course"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.email"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.email }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.email"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.phone"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.phone }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.phone"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-left">
-                <v-edit-dialog
-                  :return-value.sync="item.item.data"
-                  @save="save"
-                  @cancel="cancel"
-                  @open="open"
-                >
-                  {{ item.item.data }}
-                  <template v-slot:input>
-                    <v-text-field
-                      v-model="item.item.data"
-                      maxlength="255"
-                      label="Edit"
-                      single-line
-                      counter
-                    ></v-text-field>
-                  </template>
-                </v-edit-dialog>
-              </td>
-              <td class="text-xs-right">
-                <v-icon small @click="DeleteNotValidate(item.item)">
-                  mdi-delete
-                </v-icon>
-              </td>
-            </template>
-          </v-data-table>
-          <v-snackbar v-model="snack" :timeout="3000" :color="snackColor">
-            {{ snackText }}
-            <v-btn text flat @click="snack = false">Close</v-btn>
-          </v-snackbar>
         </v-card>
       </v-flex>
     </v-layout>
@@ -465,78 +189,89 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { ValidationObserver } from 'vee-validate';
 
 @Component({
-  middleware: ['auth'],
   layout: 'dashboard',
   head: {
     title: 'Адмін панель',
   },
   components: {
     LoremContent: () => import('~/components/LoremContent'),
+    TextField: () => import('~/components/inputs/TextField'),
+    ValidationObserver,
   },
 })
 export default class AdminPage extends Vue {
-  snack: boolean = false;
-  snackColor = '';
-  snackText = '';
-  DialogCourse: boolean = false;
-  DialogValidate: boolean = false;
-  DialogNotValidate: boolean = false;
+  dialogCourse: boolean = false;
+  dialogUsers: boolean = false;
+  expand : boolean = false;
+
+  rules ={
+    required: value => !!value || 'Required.',
+    email: value => {
+      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return pattern.test(value) || 'Invalid e-mail.'
+  }};
 
   editedIndex = -1;
-  NewCourse = {
-    title: '',
-    data: '',
-    validate: [],
-    notvalidate: [],
+
+  editCourse = {
+    title: null,
+    data: null,
+    users: [],
+    description : null,
   };
-  DefaultCourse = {
-    title: '',
-    data: '',
-    validate: [],
-    notvalidate: [],
+  defaultCourse = {
+    title: null,
+    data: null,
+    users: [],
+    description : null,
   };
 
-  NewUser = {
-    name: ``,
-    email: ``,
-    course: ``,
-    phone: ``,
-    data: ``,
+  editUser = {
+    name: null,
+    course: null,
+    email: null,
+    phone: null,
+    data: null,
+    validation : true,
   };
-  DefaultUser = {
-    name: ``,
-    email: ``,
-    course: ``,
-    phone: ``,
-    data: ``,
+  defaultUser = {
+    name: null,
+    course: null,
+    email: null,
+    phone: null,
+    data: null,
+    validation : true,
   };
-
-  CoursesHeaders = [
+  coursesHeaders = [
     {
-      text: 'Name',
+      text: 'Назва курсу',
       align: 'left',
       sortable: false,
       value: 'name',
     },
-    { text: 'Data', value: 'data' },
-    { text: 'actions', sortable: false, align: 'right' },
+    { text: 'Дата', value: 'data' },
+    { text: 'Опис', align: 'center', value: 'description' },
+    { text: '',align: 'right', sortable: false,  },
   ];
 
-  UserHeaders = [
+  userHeaders = [
     {
-      text: 'Name',
+      text: 'ФИО',
       align: 'left',
       sortable: false,
       value: 'name',
     },
-    { text: 'Course', value: 'course' },
+    { text: 'Курс', value: 'course' },
     { text: 'Email', value: 'email' },
-    { text: 'Phone', value: 'phone' },
-    { text: 'data', value: 'data' },
+    { text: 'Телефон', value: 'phone' },
+    { text: 'Дата', value: 'data' },
+    { text: 'Пiдтвердив', value: 'validation' },
+    { text: ' ', value: 'validation' },
   ];
-  selected = {};
+  selected = [];
   isEmpty(obj) {
     for (var key in obj) {
       return true;
@@ -546,102 +281,70 @@ export default class AdminPage extends Vue {
 
   courses = new Array(5).fill('').map((item, i) => ({
     title: `Lorem${i + 1}`,
-    validate: new Array(15).fill('').map((item, i) => ({
-      name: `lorem${i + 1}`,
-      email: `lorem${i + 1}@gmail.com`,
-      course: `lorem${i + 1}`,
-      phone: `+38095033005${i + 1}`,
-      data: `lorem${i + 1}`,
-    })),
-    notvalidate: new Array(15).fill('').map((item, i) => ({
-      name: `lorem${i + 1}`,
-      email: `lorem${i + 1}@gmail.com`,
-      course: `lorem${i + 1}`,
-      phone: `+38095033005${i + 1}`,
-      data: `lorem${i + 1}`,
-    })),
     data: `lorem${i + 1}`,
+    users: new Array(15).fill('').map((item, i) => ({
+      name: `lorem${i + 1}`,
+      course: `lorem${i + 1}`,
+      email: `lorem${i + 1}@gmail.com`,
+      phone: `+38095033005${i + 1}`,
+      data: `lorem${i + 1}`,
+      validation : true,
+    })),
+    description : `lorem ipsum ${i+1}`,
   }));
 
-  save() {
-    this.snack = true;
-    this.snackColor = 'success';
-    this.snackText = 'Data saved';
-  }
-  cancel() {
-    this.snack = true;
-    this.snackColor = 'error';
-    this.snackText = 'Canceled';
-  }
-  open() {
-    this.snack = true;
-    this.snackColor = 'info';
-    this.snackText = 'Dialog opened';
-  }
 
-  DeleteCourse(item) {
-    const index = this.courses.indexOf(item);
-    confirm('Are you sure you want to delete this item?') &&
-      this.courses.splice(index, 1);
+  EditCourse (item) {
+    this.editedIndex = this.courses.indexOf(item)
+    this.editCourse = Object.assign({}, item)
+    this.dialogCourse = true
   }
-  DeleteValidate(item) {
-    const index = this.selected.validate.indexOf(item);
-    confirm('Are you sure you want to delete this item?') &&
-      this.selected.validate.splice(index, 1);
-  }
-  DeleteNotValidate(item) {
-    const index = this.selected.notvalidate.indexOf(item);
-    confirm('Are you sure you want to delete this item?') &&
-      this.selected.notvalidate.splice(index, 1);
-  }
-
-  CloseCourse() {
-    this.DialogCourse = false;
-    setTimeout(() => {
-      this.NewCourse = Object.assign({}, this.DefaultCourse);
-      this.editedIndex = -1;
-    }, 300);
-  }
-
   SaveCourse() {
     if (this.editedIndex > -1) {
-      Object.assign(this.courses[this.editedIndex], this.NewCourse);
+      Object.assign(this.courses[this.editedIndex], this.editCourse);
     } else {
-      this.courses.push(this.NewCourse);
+      this.courses.push(this.editCourse);
     }
     this.CloseCourse();
   }
-  CloseValidate() {
-    this.DialogValidate = false;
+  CloseCourse() {
+    this.dialogCourse = false;
     setTimeout(() => {
-      this.NewUser = Object.assign({}, this.DefaultCourse);
+      this.editCourse = Object.assign({}, this.defaultCourse);
       this.editedIndex = -1;
     }, 300);
   }
-
-  SaveValidate() {
-    if (this.editedIndex > -1) {
-      Object.assign(this.selected.validate[this.editedIndex], this.NewUser);
-    } else {
-      this.selected.validate.push(this.NewUser);
-    }
-    this.CloseValidate();
+  DeleteCourse(item) {
+    const index = this.courses.indexOf(item);
+    confirm('Ви впевненi, що хочете видалити курс?') &&
+    this.courses.splice(index, 1);
   }
-  CloseNotValidate() {
-    this.DialogNotValidate = false;
+
+
+  EditUser (item) {
+    this.editedIndex = this.selected.users.indexOf(item)
+    this.editUser = Object.assign({}, item)
+    this.dialogUsers = true
+  }
+  SaveUser() {
+    if (this.editedIndex > -1) {
+      Object.assign(this.selected.users[this.editedIndex], this.editUser);
+    } else {
+      this.selected.users.push(this.editUser);
+    }
+    this.CloseUser();
+  }
+  CloseUser() {
+    this.dialogUsers = false;
     setTimeout(() => {
-      this.NewUser = Object.assign({}, this.DefaultUser);
+      this.editUser = Object.assign({}, this.defaultUser);
       this.editedIndex = -1;
     }, 300);
   }
-
-  SaveNotValidate() {
-    if (this.editedIndex > -1) {
-      Object.assign(this.selected.notvalidate[this.editedIndex], this.NewUser);
-    } else {
-      this.selected.notvalidate.push(this.NewUser);
-    }
-    this.CloseNotValidate();
+  DeleteUser(item) {
+    const index = this.selected.users.indexOf(item);
+    confirm('Ви впевненi, що хочете видалити користувача?') &&
+    this.selected.users.splice(index, 1);
   }
 }
 </script>

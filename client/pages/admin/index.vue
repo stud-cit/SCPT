@@ -8,7 +8,6 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  middleware: ['auth'],
   layout: 'dashboard',
   head: {
     title: 'Адмін панель',
