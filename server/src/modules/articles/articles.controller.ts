@@ -1,15 +1,9 @@
 import { Param, Body, Get, Post, Put, Delete } from '@nestjs/common';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { Controller, UseGuards, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor, UploadedFile } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import {
-  ApiUseTags,
-  ApiBearerAuth,
-  ApiConsumes,
-  ApiImplicitFile,
-} from '@nestjs/swagger';
+import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { ArticleCreateDto } from './dto/articles.dto';
 import { ArticlesService } from './articles.service';
@@ -27,16 +21,6 @@ export class ArticlesController {
     return await this.articlesService.create(data).catch(() => {
       throw new HttpException(`Rating already exists`, HttpStatus.CONFLICT);
     });
-  }
-
-  @Post('upload')
-  @ApiBearerAuth()
-  @UseGuards(AuthGuard('jwt'))
-  @ApiConsumes('multipart/form-data')
-  @UseInterceptors(FileInterceptor('file'))
-  @ApiImplicitFile({ name: 'file', required: true })
-  async uploadFile(@UploadedFile() file) {
-    return await file.filename;
   }
 
   @Get()

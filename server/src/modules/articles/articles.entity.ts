@@ -31,13 +31,13 @@ export class Articles extends BaseEntity {
   cover: string;
 
   @Column('varchar', {
-    nullable: true,
+    nullable: false,
     name: 'description',
   })
   description: string;
 
   @Column('json', {
-    nullable: true,
+    nullable: false,
     name: 'content',
   })
   content?: [ArticleContentImage | ArticleContentText];
