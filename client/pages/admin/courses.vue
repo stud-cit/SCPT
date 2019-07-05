@@ -189,7 +189,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { ValidationObserver } from 'vee-validate';
 
 @Component({
   layout: 'dashboard',
@@ -198,8 +197,6 @@ import { ValidationObserver } from 'vee-validate';
   },
   components: {
     LoremContent: () => import('~/components/LoremContent'),
-    TextField: () => import('~/components/inputs/TextField'),
-    ValidationObserver,
   },
 })
 export default class AdminPage extends Vue {
