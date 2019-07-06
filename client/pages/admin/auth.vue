@@ -1,6 +1,6 @@
 <template>
   <v-layout align-center justify-center row fill-height>
-    <v-flex xs12 sm5 md4>
+    <v-flex xs12 sm6 md4 lg3>
       <v-card>
         <v-card-title primary-title>
           <v-layout align-center column> </v-layout>
