@@ -1,7 +1,7 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 
-export class UserCreateDto {
+export class AdminCreateDto {
   @ApiModelProperty()
   @IsString()
   readonly login: string;

@@ -88,7 +88,7 @@ export default class AuthPage extends Vue {
     const isValid = await this.$refs.observer.validate();
     if (!isValid) return;
     if (!this.isConfigure) {
-      await this.$axios.post('users', {
+      await this.$axios.post('admin', {
         login: this.login,
         password: this.password,
       });

@@ -59,7 +59,7 @@ const config: NuxtConfiguration = {
       local: {
         endpoints: {
           login: { url: '/auth', method: 'post', propertyName: 'token' },
-          user: { url: '/users', method: 'get', propertyName: '' },
+          user: { url: '/admin', method: 'get', propertyName: '' },
           logout: false,
         },
         tokenRequired: true,

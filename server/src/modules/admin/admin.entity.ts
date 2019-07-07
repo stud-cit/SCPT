@@ -1,18 +1,8 @@
-import {
-  BaseEntity,
-  Column,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('Users', { schema: 'SCPT' })
-@Index('login', ['login'], { unique: true })
-export class Users extends BaseEntity {
-  @PrimaryGeneratedColumn({
-    type: 'int',
-    name: 'id',
-  })
+@Entity('Admin')
+export class Admin extends BaseEntity {
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column('varchar', {
@@ -23,7 +13,15 @@ export class Users extends BaseEntity {
   login: string;
 
   @Column('varchar', {
+    nullable: true,
+    unique: true,
+    name: 'email',
+  })
+  email: string | null;
+
+  @Column('varchar', {
     nullable: false,
+    unique: true,
     name: 'password',
   })
   password: string;

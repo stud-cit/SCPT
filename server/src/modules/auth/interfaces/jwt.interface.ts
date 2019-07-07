@@ -1,7 +1,9 @@
 export interface JwtPayload {
   login: string;
-  createAt: Date;
-  updateAt: Date;
+  timestamp: Promise<{
+    createAt: Date;
+    updateAt: Date;
+  }>;
 }
 
 export interface JwtToken {

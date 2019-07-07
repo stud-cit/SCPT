@@ -3,8 +3,8 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 
 import { ConfigService } from '../../config/config.service';
-import { UsersService } from '../users/users.service';
-import { Users } from '../users/users.entity';
+import { AdminService } from '../admin/admin.service';
+import { Admin } from '../admin/admin.entity';
 
 import { JwtPayload, JwtToken } from './interfaces/jwt.interface';
 
@@ -14,7 +14,7 @@ import { CreateTokenDto } from './dto/token.dto';
 export class AuthService {
   constructor(
     private readonly configService: ConfigService,
-    private readonly userService: UsersService,
+    private readonly adminService: AdminService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -31,7 +31,7 @@ export class AuthService {
     };
   }
 
-  async validate(payload: CreateTokenDto): Promise<Users> {
-    return await this.userService.selectByLogin(payload.login);
+  async validate(payload: CreateTokenDto): Promise<Admin> {
+    return await this.adminService.selectByLogin(payload.login);
   }
 }

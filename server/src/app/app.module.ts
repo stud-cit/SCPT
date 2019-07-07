@@ -11,7 +11,7 @@ import { UpdloadModule } from '../upload/upload.module';
 
 import { ArticlesModule } from '../modules/articles/articles.module';
 import { AuthModule } from '../modules/auth/auth.module';
-import { UsersModule } from '../modules/users/users.module';
+import { AdminModule } from '../modules/admin/admin.module';
 
 @Global()
 @Module({
@@ -24,7 +24,7 @@ import { UsersModule } from '../modules/users/users.module';
 
     ArticlesModule,
     AuthModule,
-    UsersModule,
+    AdminModule,
   ],
   providers: [AppService],
   controllers: [AppController],

@@ -8,25 +8,25 @@ import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { User } from '../../common/decorators/user.decorator';
 import { AppService } from '../../app/app.service';
 
-import { UserCreateDto } from './dto/users.dto';
-import { UsersService } from './users.service';
-import { Users } from './users.entity';
+import { AdminCreateDto } from './dto/admin.dto';
+import { AdminService } from './admin.service';
+import { Admin } from './admin.entity';
 
-@ApiUseTags('users')
-@Controller('users')
-export class UsersController {
+@ApiUseTags('admin')
+@Controller('admin')
+export class AdminController {
   constructor(
-    private readonly usersService: UsersService,
+    private readonly adminService: AdminService,
     private readonly appService: AppService,
   ) {}
 
   @Post()
-  async create(@Body() data: UserCreateDto): Promise<Users> {
-    const scope = await this.usersService.select();
+  async create(@Body() data: AdminCreateDto): Promise<Admin> {
+    const scope = await this.adminService.select();
 
     if (!scope.length) {
       await this.appService.create({});
-      return await this.usersService.create(data);
+      return await this.adminService.create(data);
     }
 
     throw new HttpException(`User already exists`, HttpStatus.CONFLICT);
@@ -35,7 +35,7 @@ export class UsersController {
   @Get()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async select(@User() user: Users): Promise<Users> {
+  async select(@User() user: Admin): Promise<Admin> {
     return await user;
   }
 
@@ -43,10 +43,10 @@ export class UsersController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
   async update(
-    @User() user: Users,
-    @Body() data: UserCreateDto,
-  ): Promise<Users> {
-    return await this.usersService.update(user, data).catch(() => {
+    @User() user: Admin,
+    @Body() data: AdminCreateDto,
+  ): Promise<Admin> {
+    return await this.adminService.update(user, data).catch(() => {
       throw new HttpException('User not found', HttpStatus.NO_CONTENT);
     });
   }
@@ -54,8 +54,8 @@ export class UsersController {
   @Delete()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async delete(@User() user: Users) {
-    return await this.usersService.delete(user.id).catch(() => {
+  async delete(@User() user: Admin) {
+    return await this.adminService.delete(user.id).catch(() => {
       throw new HttpException('User not found', HttpStatus.NO_CONTENT);
     });
   }

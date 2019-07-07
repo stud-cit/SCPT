@@ -4,22 +4,22 @@ import {
   InsertEvent,
   UpdateEvent,
 } from 'typeorm';
-import { Users } from './users.entity';
+import { Admin } from './admin.entity';
 import { hashSync } from 'bcrypt';
 
 @EventSubscriber()
-export class UsersSubscriber implements EntitySubscriberInterface<any> {
+export class AdminSubscriber implements EntitySubscriberInterface<any> {
   listenTo() {
-    return Users;
+    return Admin;
   }
 
-  beforeInsert(event: InsertEvent<Users>): Promise<any> | void {
+  beforeInsert(event: InsertEvent<Admin>): Promise<any> | void {
     if (event.entity) {
       event.entity.password = hashSync(event.entity.password, 8);
     }
   }
 
-  beforeUpdate(event: UpdateEvent<Users>): Promise<any> | void {
+  beforeUpdate(event: UpdateEvent<Admin>): Promise<any> | void {
     if (event.entity) {
       event.entity.password = hashSync(event.entity.password, 8);
     }

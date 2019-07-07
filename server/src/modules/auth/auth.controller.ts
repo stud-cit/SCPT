@@ -10,7 +10,7 @@ import { User } from '../../common/decorators/user.decorator';
 import { JwtToken } from './interfaces/jwt.interface';
 import { CreateTokenDto } from './dto/token.dto';
 import { AuthService } from './auth.service';
-import { Users } from '../users/users.entity';
+import { Admin } from '../admin/admin.entity';
 
 @ApiUseTags('auth')
 @Controller('auth')
@@ -19,19 +19,18 @@ export class AuthController {
 
   @Post()
   async create(@Body() data: CreateTokenDto): Promise<JwtToken> {
-    const user = await this.authService.validate(data);
+    const admin = await this.authService.validate(data);
 
-    if (user) {
+    if (admin) {
       const compare = await this.authService.compare(
         data.password,
-        user.password,
+        admin.password,
       );
 
       if (compare) {
         return await this.authService.create({
           login: data.login,
-          createAt: user.createAt,
-          updateAt: user.updateAt,
+          timestamp: admin.timestamp,
         });
       }
     }
@@ -42,7 +41,7 @@ export class AuthController {
   @Put()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async update(@User() user: Users): Promise<JwtToken> {
-    return await this.authService.create(user);
+  async update(@User() admin: Admin): Promise<JwtToken> {
+    return await this.authService.create(admin);
   }
 }
