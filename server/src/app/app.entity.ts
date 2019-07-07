@@ -1,30 +1,23 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('App', { schema: 'SCPT' })
+@Entity('App')
 export class App extends BaseEntity {
-  @PrimaryGeneratedColumn({
-    type: 'int',
-    name: 'id',
-  })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column('varchar', {
     nullable: true,
+    unique: true,
     name: 'title',
   })
-  title: string | null;
+  title: string;
 
   @Column('varchar', {
     nullable: true,
+    unique: true,
     name: 'description',
   })
-  description: string | null;
-
-  @Column('varchar', {
-    nullable: true,
-    name: 'altContent',
-  })
-  altContent: string | null;
+  description: string;
 
   @Column('timestamp', {
     nullable: false,
