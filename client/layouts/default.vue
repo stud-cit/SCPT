@@ -1,63 +1,20 @@
 <template>
   <v-app>
-    <v-toolbar app dark class="white--text pr-0" color="indigo">
-      <v-toolbar-title>
-        <v-icon>mdi-vuetify</v-icon>
-        Title
-      </v-toolbar-title>
-      <v-spacer />
+    <ToolBar />
 
-      <v-toolbar-items
-        v-for="(page, i) in pages"
-        :key="i"
-        class="hidden-sm-and-down"
-      >
-        <v-btn flat :to="page.to" exact>
-          {{ page.title }}
-        </v-btn>
-      </v-toolbar-items>
-
-      <v-speed-dial
-        v-model="burger"
-        direction="bottom"
-        transition="scale-transition"
-        class="hidden-md-and-up"
-      >
-        <template v-slot:activator>
-          <v-btn v-model="burger" fab icon small>
-            <v-icon medium>mdi-menu</v-icon>
-            <v-icon medium>mdi-close</v-icon>
-          </v-btn>
-        </template>
-        <v-btn
-          v-for="(page, i) in pages"
-          :key="i"
-          :to="page.to"
-          exact
-          fab
-          small
-          color="indigo"
-        >
-          <v-icon>{{ page.icon }}</v-icon>
-        </v-btn>
-      </v-speed-dial>
-    </v-toolbar>
-
-    <Carousel :items="carusel" hide-controls hide-delimiters />
+    <Carousel :items="getConfig.carusel" hide-controls hide-delimiters />
 
     <v-content>
       <nuxt />
     </v-content>
 
     <v-footer height="auto">
-      <v-card color="indigo" flat tile class="text-xs-center">
+      <v-card color="primary" flat tile class="text-xs-center">
         <v-card-text>
           <v-btn
-            icon
-            class="mx-3 white--text"
-            v-for="invite in invites"
-            :key="invite.to"
-            :to="invite.to"
+            v-for="(invite, i) in getConfig.invites" :key="i"
+            :to="invite.to" exact
+            icon class="mx-3 white--text"
           >
             <v-icon v-text="invite.icon" />
           </v-btn>
@@ -99,33 +56,16 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { mapGetters } from 'vuex';
 
 @Component({
   components: {
+    ToolBar: () => import('~/components/ToolBar.vue'),
     Carousel: () => import('~/components/Carousel.vue'),
   },
+  computed: {
+    ...mapGetters(['getConfig']),
+  },
 })
-export default class DefaultLayuot extends Vue {
-  burger: boolean = false;
-
-  pages = [
-    { title: 'Головна', icon: 'mdi-home', to: '/' },
-    { title: 'Напрямки', icon: 'mdi-ticket', to: '/directions' },
-    { title: 'Документи', icon: 'mdi-file-document', to: '/docs' },
-    { title: 'Галерея', icon: 'mdi-animation', to: '/gallery' },
-    { title: 'Контакти', icon: 'mdi-contacts', to: '/contact' },
-    { title: 'Про нас', icon: 'mdi-information-variant', to: '/about' },
-  ];
-
-  invites = [
-    { icon: 'mdi-instagram', to: '//google.com.ua' },
-    { icon: 'mdi-facebook', to: '//google.com.ru' },
-    { icon: 'mdi-linkedin', to: '//google.com.sd' },
-    { icon: 'mdi-twitter', to: '//google.com' },
-  ];
-
-  carusel = new Array(5).fill('').map((item, i) => ({
-    src: `https://picsum.photos/1366/728?image=${i * 5 + 10}`,
-  }));
-}
+export default class DefaultLayuot extends Vue {}
 </script>
