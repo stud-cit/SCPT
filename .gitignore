@@ -79,3 +79,5 @@ client/assets/img
 *.csr
 
 client/dist/
+
+server/output/
