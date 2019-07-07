@@ -2,19 +2,15 @@ import {
   BaseEntity,
   Column,
   Entity,
-  Index,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-import { ArticleContentText, ArticleContentImage } from './dto/articles.dto';
-
-@Entity('Articles', { schema: 'SCPT' })
-@Index('title', ['title'], { unique: true })
+@Entity('Articles')
 export class Articles extends BaseEntity {
-  @PrimaryGeneratedColumn({
-    type: 'int',
-    name: 'id',
-  })
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column('varchar', {
@@ -25,22 +21,16 @@ export class Articles extends BaseEntity {
   title: string;
 
   @Column('varchar', {
-    nullable: true,
-    name: 'cover',
-  })
-  cover: string;
-
-  @Column('varchar', {
     nullable: false,
     name: 'description',
   })
   description: string;
 
-  @Column('json', {
+  @Column('varchar', {
     nullable: false,
-    name: 'content',
+    name: 'cover',
   })
-  content?: [ArticleContentImage | ArticleContentText];
+  cover: string;
 
   @Column('timestamp', {
     nullable: false,
@@ -55,4 +45,38 @@ export class Articles extends BaseEntity {
     name: 'updateAt',
   })
   updateAt: Date;
+
+  @OneToMany(type => Content, contents => contents.article, {
+    eager: true,
+    cascade: true,
+  })
+  content: Content[];
+}
+
+@Entity('Content', { schema: 'SCPT' })
+export class Content extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @ManyToOne(type => Articles, articles => articles.content)
+  @JoinColumn({ name: 'article' })
+  article: Articles;
+
+  @Column('varchar', {
+    nullable: false,
+    name: 'type',
+  })
+  type: string;
+
+  @Column('varchar', {
+    nullable: false,
+    name: 'value',
+  })
+  value: string;
+
+  @Column('varchar', {
+    nullable: true,
+    name: 'comment',
+  })
+  comment: string | null;
 }

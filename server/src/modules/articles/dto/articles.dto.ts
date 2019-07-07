@@ -1,28 +1,24 @@
 import { ApiModelProperty } from '@nestjs/swagger';
-import { IsNumber, IsString, IsUrl, IsArray } from 'class-validator';
+import { IsNumber, IsString, IsArray } from 'class-validator';
 
-export class ArticleContentText {
-  @ApiModelProperty()
-  @IsString()
-  readonly type: string;
-
-  @ApiModelProperty()
-  @IsString()
-  readonly filling: string;
+export enum ArticleContentType {
+  text = 'text',
+  image = 'image',
+  video = 'video',
 }
 
-export class ArticleContentImage {
-  @ApiModelProperty()
+export class ArticleContent {
+  @ApiModelProperty({ enum: ['text', 'image', 'video'] })
   @IsString()
-  readonly type: string;
+  readonly type: ArticleContentType;
 
   @ApiModelProperty()
   @IsString()
-  readonly alt: string;
+  readonly value: string;
 
   @ApiModelProperty()
   @IsString()
-  readonly src: string;
+  readonly comment?: string;
 }
 
 export class ArticleCreateDto {
@@ -35,14 +31,14 @@ export class ArticleCreateDto {
   readonly title: string;
 
   @ApiModelProperty()
-  @IsUrl()
+  @IsString()
   readonly cover?: string;
 
   @ApiModelProperty()
   @IsString()
   readonly description?: string;
 
-  @ApiModelProperty()
+  @ApiModelProperty({ type: [ArticleContent] })
   @IsArray()
-  readonly content?: [ArticleContentText | ArticleContentImage];
+  readonly content: ArticleContent[];
 }

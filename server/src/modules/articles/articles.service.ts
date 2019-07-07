@@ -25,8 +25,7 @@ export class ArticlesService {
     return await this.articlesRepository.findOneOrFail(id);
   }
 
-  async update(articles: Articles, data: ArticleCreateDto): Promise<Articles> {
-    await this.articlesRepository.merge(articles, data);
+  async update(articles: Articles): Promise<Articles> {
     return await this.articlesRepository.save(articles);
   }
 

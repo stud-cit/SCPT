@@ -35,27 +35,28 @@
       <v-container v-for="(section, i) in article.content" :key="i" pa-0>
         <blockquote
           v-if="section.type == 'text'"
-          v-html="section.filling"
+          v-html="section.value"
           class="blockquote"
         />
 
         <v-card v-if="section.type == 'image'" flat>
           <v-img
             :aspect-ratio="16 / 9"
-            :src="getImage(section.src)"
-            :alt="section.alt"
+            :src="getImage(section.value)"
+            :alt="section.comment"
           />
 
           <v-card-text v-if="loggedInUser" primary-title>
             <v-text-field
-              v-model="section.alt"
-              :label="imageUpload.placeholder"
+              v-model="section.comment"
+              @blur="section.comment = $event.target.value"
+              label='Опис зображення'
               prepend-icon="mdi-pound"
             />
           </v-card-text>
           <v-card-title v-else primary-title>
             <span class="primary--text font-weight-bold">#</span>
-            <span class="text-uppercase">{{ section.alt }}</span>
+            <span class="text-uppercase">{{ section.comment }}</span>
           </v-card-title>
         </v-card>
       </v-container>
@@ -63,10 +64,10 @@
       <v-divider />
 
       <v-layout v-if="loggedInUser" align-center justify-center fill-height wrap>
-        <v-container v-if="textFilling.open">
+        <v-container v-if="currentContent.open">
           <v-textarea
-            v-model="textFilling.filling"
-            :placeholder="textFilling.placeholder"
+            v-model="currentContent.value"
+            placeholder="Що нового ?"
             auto-grow
             clearable
             counter
@@ -125,26 +126,22 @@ export default class ArticlePage extends Vue {
 
   article: object = this.$store.state.article;
 
-  textFilling = {
-    filling: null,
-    placeholder: 'Що нового ?',
-  };
-
-  imageUpload = {
-    alt: null,
-    placeholder: 'Опис зображення',
-  };
+  currentContent = {
+    open: false,
+    value: null,
+    comment: null,
+  }
 
   launchTextArea() {
-    if (this.textFilling.filling !== null) {
+    if (this.currentContent.value !== null) {
       this.article.content.push({
         type: 'text',
-        filling: this.textFilling.filling.replace(/\n/g, '</br>'),
+        value: this.currentContent.value.replace(/\n/g, '</br>'),
       })
     }
 
-    this.textFilling.open = !this.textFilling.open;
-    this.textFilling.filling = null;
+    this.currentContent.open = !this.currentContent.open;
+    this.currentContent.value = null;
   }
 
   async onFileChange(e) {
@@ -159,8 +156,8 @@ export default class ArticlePage extends Vue {
 
     return this.article.content.push({
       type: 'image',
-      alt: this.imageUpload.alt,
-      src: patch,
+      value: patch,
+      comment: this.currentContent.comment,
     })
   }
 
@@ -169,18 +166,17 @@ export default class ArticlePage extends Vue {
   }
 
   async saveContent() {
-    if (this.article.content.length) {
-      await this.$axios.$put('articles/', this.article);
-    }
+    return await this.$axios.$put('articles/', this.article);
   }
 
   getBackground() {
-      return {
-        height: '25vh',
-        'background-image': `url(${this.getImage(this.article.cover)})`,
-        'background-size': 'cover',
-        'background-position-y': 'center',
-      };
+    const cover = this.getImage(this.article.cover);
+    return {
+      height: '25vh',
+      'background-image': `url(${cover})`,
+      'background-size': 'cover',
+      'background-position-y': 'center',
+    };
   }
 }
 </script>
