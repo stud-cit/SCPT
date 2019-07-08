@@ -4,6 +4,8 @@ import Vuetify from 'vuetify/lib';
 import colors from 'vuetify/es5/util/colors';
 import '@mdi/font/css/materialdesignicons.css';
 
+import LogoIcon from '../components/LogoIcon.vue';
+
 const iconfont = 'mdi';
 
 Vue.use(Vuetify, {
@@ -20,4 +22,9 @@ Vue.use(Vuetify, {
     info: colors.blue.base,
     success: colors.green.base,
   },
+  icons: {
+    logo: {
+      component: LogoIcon
+    }
+  }
 });

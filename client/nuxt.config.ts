@@ -30,7 +30,7 @@ const config: NuxtConfiguration = {
         content: configService.getSetting('APP_DESC'),
       },
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.png' }],
   },
   /*
    ** Customize the progress bar color

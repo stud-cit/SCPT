@@ -1,7 +1,7 @@
 <template>
   <v-toolbar app v-bind="$attrs" fixed dark clipped-left color="primary">
     <v-toolbar-title>
-      <v-icon>mdi-vuetify</v-icon>
+      <v-icon large>$vuetify.icons.logo</v-icon>
       {{ getConfig.title }}
     </v-toolbar-title>
     <v-spacer />
