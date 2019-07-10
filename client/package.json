@@ -10,7 +10,7 @@
     "start": "nuxt start",
     "start:prod": "nuxt generate",
     "prestart:prod": "rimraf dist .nuxt && npm run build",
-    "format": "prettier --write \"./**/*.{ts,vue}\"",
+    "format": "prettier --write ./**/*.{ts,vue}",
     "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "dependencies": {
