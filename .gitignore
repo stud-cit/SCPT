@@ -81,3 +81,5 @@ client/assets/img
 client/dist/
 
 server/output/
+
+.idea
