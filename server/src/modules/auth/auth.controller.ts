@@ -30,7 +30,6 @@ export class AuthController {
       if (compare) {
         return await this.authService.create({
           login: data.login,
-          timestamp: admin.timestamp,
         });
       }
     }
