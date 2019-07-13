@@ -1,34 +1,40 @@
 <template>
   <v-container grid-list-lg>
     <v-layout justify-start wrap>
-      <v-flex xs12 sm5 md4 lg2>
-        <v-card>
+      <v-flex xs12 sm6 md4 lg3>
+        <v-card color="grey--text">
           <v-responsive :aspect-ratio="70 / 99">
             <v-layout align-center justify-center fill-height>
-              <v-btn @click="$refs.file.click()" outline fab large>
+              <v-btn @click="$refs.file.click()" color="grey" outline fab large>
                 <v-icon large>mdi-plus</v-icon>
               </v-btn>
             </v-layout>
           </v-responsive>
           <v-divider />
-          <v-card-actions class="pt-4" style="position: relative; z-index:0">
-            <span class="mb-2">Завантажити документ</span>
+          <v-card-actions>
+            <span class="text-truncate">Завантажити документ</span>
+            <v-spacer/>
+            <v-btn disabled flat icon>
+              <v-icon>mdi-delete</v-icon>
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-flex>
-      <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm5 md4 lg2>
+
+      <v-flex v-for="(doc, i) in documents" :key="i" xs12 sm6 md4 lg3>
         <v-card>
           <CustomImage :src="doc.src" :aspect-ratio="70 / 99" />
-          <v-card-actions class="pt-4" style="position: relative; z-index:0">
-            <v-btn @click="deleteDoc(i)" color="error" absolute right top fab>
+          <v-card-actions>
+            <span class="text-truncate">{{ doc.title }}</span>
+            <v-spacer/>
+            <v-btn @click="deleteDoc(i)" color="error" flat icon>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
-
-            <span class="mb-2">{{ doc.title }}</span>
           </v-card-actions>
         </v-card>
       </v-flex>
     </v-layout>
+
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-text>

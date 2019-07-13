@@ -38,9 +38,8 @@ export class ArticlesController {
   @Put()
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'))
-  async update(@Body() data: ArticleCreateDto): Promise<Articles> {
-    const article = await this.articlesService.selectByID(data.id);
-    return await this.articlesService.update(article, data).catch(() => {
+  async update(@Body() data: Articles): Promise<Articles> {
+    return await this.articlesService.update(data).catch(() => {
       throw new HttpException('Article not found', HttpStatus.NO_CONTENT);
     });
   }
